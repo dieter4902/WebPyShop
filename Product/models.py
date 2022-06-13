@@ -4,9 +4,6 @@ from colorfield.fields import ColorField
 from django.contrib.auth.models import User
 
 
-# Create your models here.
-
-
 class Product(models.Model):
     COLOR_PALETTE = [
         ("#FFFFFF", "white",),
@@ -41,42 +38,52 @@ class Product(models.Model):
                        choices=COLOR_PALETTE)
     material = models.CharField(max_length=1,
                                 choices=MATERIALS, )
-    stockwerke = models.IntegerField(
-        MaxValueValidator(20),
-        MinValueValidator(-3))
-    hoehlen = models.IntegerField(
+    stockwerke = models.IntegerField(validators=[
         MaxValueValidator(20),
         MinValueValidator(-3)
-    )
+    ])
+    hoehlen = models.IntegerField(validators=[
+        MaxValueValidator(20),
+        MinValueValidator(-3)
+    ])
+    price = models.IntegerField()
 
     class Meta:
-        ordering = ['name', '-type']
+        ordering = ['name', '-price']
         verbose_name = 'Product'
         verbose_name_plural = 'Products'
 
-        def get_votes(self):
-            return Vote.objects.filter(product=self)
+    def get_votes(self):
+        return Vote.objects.filter(product=self)
 
-        def get_votes_score(self):
-            score = self.get_votes()
-            product = 0
-            for element in score:
-                product += element.stars
-            return product / len(score)
+    def get_votes_score(self):
+        score = self.get_votes()
+        product = 0
+        for element in score:
+            product += element.stars
+        return product / len(score)
 
-        def get_votes_count(self):
-            return len(self.get_votes())
+    def get_votes_count(self):
+        return len(self.get_votes())
 
-        def vote(self, user, num_stars):
-            users_vote = self.get_votes().filter(user=user)
-            if users_vote.exists():
-                users_vote.delete()
-            vote = Vote.objects.create(stars=num_stars, user=user, product=self)
+    def vote(self, user, num_stars):
+        users_vote = self.get_votes().filter(user=user)
+        if users_vote.exists():
+            users_vote.delete()
+        Vote.objects.create(stars=num_stars, user=user, product=self)
+
+    def __str__(self):
+        return self.name + ' (' + self.brand + ')'
+
+    def __repr__(self):
+        return self.name + ' / ' + self.brand + ' / ' + str(self.price) + "€"
 
 
 class Vote(models.Model):
-    stars = models.IntegerField(MaxValueValidator(5),
-                                MinValueValidator(0), )
+    stars = models.IntegerField(validators=[
+        MaxValueValidator(5),
+        MinValueValidator(0)
+    ])
     timestamp = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
