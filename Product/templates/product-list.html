@@ -1,0 +1,22 @@
+{% extends 'home.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'Products/products_style.css' %}">
+{% endblock %}
+
+{% block title %}Product list{% endblock %}
+
+{% block content %}
+    <h2>Product list</h2>
+    <ul>
+        {% for product in all_the_products %}
+            <a href="{{ product.id }}/"><b>{{ product.name }}</b></a><br>
+            <!-- Alternative link: <a href="{% url 'product-detail' product.id %}">-->
+            {{ product.get_type_display }} / {{ product.get_fsk_display }} / {{ product.creator }}<br>
+            <br>
+        {% endfor %}
+    </ul>
+
+    <a href={% url 'product-create' %}>Add a new product</a><br>
+{% endblock %}

@@ -18,34 +18,42 @@ class Product(models.Model):
     name = models.CharField(max_length=100)
     brand = models.CharField(max_length=100)
     description = models.CharField(max_length=420)
-    height = models.IntegerField(validators=[  # in cm
-        MaxValueValidator(500),
-        MinValueValidator(0)
-    ])
-    width = models.IntegerField(validators=[  # in cm
-        MaxValueValidator(500),
-        MinValueValidator(0)
-    ])
-    length = models.IntegerField(validators=[  # in cm
-        MaxValueValidator(500),
-        MinValueValidator(0)
-    ])
-    weight = models.IntegerField(validators=[  # in kilo
-        MaxValueValidator(1000),
-        MinValueValidator(0)
-    ])
-    color = ColorField(default='#ffffff',
-                       choices=COLOR_PALETTE)
+    height = models.IntegerField(default=0,
+                                 validators=[  # in cm
+                                     MaxValueValidator(500),
+                                     MinValueValidator(0)
+                                 ])
+    width = models.IntegerField(default=0,
+                                validators=[  # in cm
+                                    MaxValueValidator(500),
+                                    MinValueValidator(0)
+                                ])
+    length = models.IntegerField(default=0,
+                                 validators=[  # in cm
+                                     MaxValueValidator(500),
+                                     MinValueValidator(0)
+                                 ])
+    weight = models.IntegerField(default=0,
+                                 validators=[  # in kilo
+                                     MaxValueValidator(1000),
+                                     MinValueValidator(0)
+                                 ])
+
+    color = ColorField(choices=COLOR_PALETTE,
+                       default='#000000')
+
     material = models.CharField(max_length=1,
                                 choices=MATERIALS, )
-    stockwerke = models.IntegerField(validators=[
-        MaxValueValidator(20),
-        MinValueValidator(-3)
-    ])
-    hoehlen = models.IntegerField(validators=[
-        MaxValueValidator(20),
-        MinValueValidator(-3)
-    ])
+    stockwerke = models.IntegerField(default=1,
+                                     validators=[
+                                         MaxValueValidator(20),
+                                         MinValueValidator(-3)
+                                     ])
+    hoehlen = models.IntegerField(default=1,
+                                  validators=[
+                                      MaxValueValidator(20),
+                                      MinValueValidator(-3)
+                                  ])
     price = models.IntegerField()
 
     class Meta:
