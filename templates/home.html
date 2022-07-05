@@ -8,5 +8,8 @@ Home Block
 {% else %}
 <p>You are not logged in</p>
 <a href="{% url 'login' %}">login</a>
+    <br>
+    <p>Need an Account? Click below!</p>
+    <a href="{% url 'signup' %}">signup</a>
 {% endif %}
 {% endblock %}
