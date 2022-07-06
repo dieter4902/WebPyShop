@@ -1,17 +1,24 @@
 {% extends "base.html" %}
 {% block title %}Homepage Titel{% endblock %}
 {% block css %}{% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/css/bootstrap.css'%}" >{% endblock %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/css/bootstrap.css' %}">{% endblock %}
 {% block content %}
-Home Block
-{% if user.is_authenticated %}
-<p>Hi {{ user.username }}!</p>
-<a href="{% url 'logout' %}">logout</a>
-{% else %}
-<p>You are not logged in</p>
-<a href="{% url 'login' %}">login</a>
-    <br>
-    <p>Need an Account? Click below!</p>
-    <a href="{% url 'signup' %}">signup</a>
-{% endif %}
+    <div class="container">
+        Welcome
+    </div>
+    {% if user.is_authenticated %}
+        <p>Hi {{ user.username }}!</p>
+        <a href="{% url 'logout' %}">logout</a>
+    {% else %}
+        <div class="container">
+            <p>You are not logged in</p>
+            <a href="{% url 'login' %}">login</a>
+        </div>
+        <br>
+        <div class="container">
+
+            <p>Need an Account? Click below!</p>
+            <a href="{% url 'signup' %}">signup</a>
+        </div>
+    {% endif %}
 {% endblock %}
