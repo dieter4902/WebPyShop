@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Homepage Titel{% endblock %}
+{% block css %}{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/css/bootstrap.css'%}" >{% endblock %}
 {% block content %}
 Home Block
 {% if user.is_authenticated %}
