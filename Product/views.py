@@ -14,8 +14,8 @@ def product_detail(request, **kwargs):
     product = Product.objects.get(id=product_id)
 
     context = {'that_one_product': product,
-               'upvotes': product.get_upvotes_count(),
-               'downvotes': product.get_downvotes_count()}
+               'voteCount': product.get_votes_count(),
+               'voteScore': product.get_votes_score()}
     return render(request, 'product-detail.html', context)
 
 
@@ -46,8 +46,8 @@ def product_delete(request, **kwargs):
         return render(request, 'product-delete.html', context)
 
 
-def vote(request, pk: str, up_or_down: str):
+def vote(request, pk: str, rating: int):
     product = Product.objects.get(id=int(pk))
     user = request.user
-    product.vote(user, up_or_down)
+    product.vote(user, rating)
     return redirect('product-detail', pk=pk)

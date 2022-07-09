@@ -30,17 +30,19 @@
         </tr>
     </table>
 
-    <!--<span style="color: darkgreen">{{ upvotes }}</span>
-    <a href="{% url 'product-vote' that_one_product.id 'up' %}" style="text-decoration: none">
-        <img src="{% static 'Products/arrow_up.png' %}" height="20" width="20" alt="">
-    </a>
 
-    <span style="color: crimson">{{ downvotes }}</span>
-    <a href="{% url 'product-vote' that_one_product.id 'down' %}" style="text-decoration: none">
-        <img src="{% static 'Products/arrow_down.png' %}" height="20" width="20" alt="">
-    </a>
+    <span><small><small><small>{{ voteScore }}</small></small></small></span>
+    {% for i in '12345'|make_list %}
+        <a href="{% url 'product-vote' that_one_product.id forloop.counter %}" style="text-decoration: none">
+            {% if voteScore >= forloop.counter %}
+                <img src="{% static 'Products/Star_full.png' %}" height="20" width="20" alt="">
+            {% else %}
+                <img src="{% static 'Products/Star_empty.png' %}" height="20" width="20" alt="">
+            {% endif %}
+        </a>
+    {% endfor %}
+    <span>{{ voteCount }} ratings</span>
     <br><br>
--->
 
     <br>
     <a href="{% url 'product-delete' that_one_product.id %}">delete product</a>

@@ -9,6 +9,8 @@
     {% if user.is_authenticated %}
         <p>Hi {{ user.username }}!</p>
         <a href="{% url 'logout' %}">logout</a>
+        {% block logged_in_content %}
+        {% endblock %}
     {% else %}
         <div class="container">
             <p>You are not logged in</p>
@@ -17,7 +19,9 @@
         <br>
         <div class="container">
 
-            <p>Need an Account? Click below!</p>
+            {% block not_logged_in_content %}
+                <p>Need an Account? Click below!</p>
+            {% endblock %}
             <a href="{% url 'signup' %}">signup</a>
         </div>
     {% endif %}

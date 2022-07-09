@@ -66,20 +66,26 @@ class Product(models.Model):
         return Vote.objects.filter(product=self)
 
     def get_votes_score(self):
-        score = self.get_votes()
-        product = 0
-        for element in score:
-            product += element.stars
-        return product / len(score)
+        votes = self.get_votes()
+        if len(votes) == 0:
+            return 0
+        else:
+            product = 0
+            for element in votes:
+                product += element.stars
+            return product / len(votes)
 
     def get_votes_count(self):
         return len(self.get_votes())
 
-    def vote(self, user, num_stars):
+    def vote(self, user, rating):
         users_vote = self.get_votes().filter(user=user)
         if users_vote.exists():
+            if users_vote.get().stars == rating:
+                users_vote.delete()
+                return
             users_vote.delete()
-        Vote.objects.create(stars=num_stars, user=user, product=self)
+        Vote.objects.create(stars=rating, user=user, product=self)
 
     def __str__(self):
         return self.name + ' (' + self.brand + ')'
@@ -94,7 +100,7 @@ class Vote(models.Model):
         MinValueValidator(0)
     ])
     timestamp = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, 
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
