@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Product.apps.ProductConfig',
     'Useradmin.apps.UseradminConfig',
+    'Shoppingcart.apps.ShoppingcartConfig',
     'colorfield'
 ]
 

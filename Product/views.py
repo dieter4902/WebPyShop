@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import ProductForm, SearchForm
 from .models import Product
+from Shoppingcart.models import ShoppingCart
 
 
 def product_list(request):
@@ -12,6 +13,10 @@ def product_list(request):
 def product_detail(request, **kwargs):
     product_id = kwargs['pk']
     product = Product.objects.get(id=product_id)
+    
+    if request.method == 'POST':
+        myuser = request.user
+        ShoppingCart.add_item(myuser, product)
 
     context = {'that_one_product': product,
                'voteCount': product.get_votes_count(),
