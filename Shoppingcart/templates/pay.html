@@ -7,8 +7,10 @@
 <h2>Payment</h2>
     {% if paid %}
         Thank you for your payment.<br><br>
+        <a href="{% url 'all-products' %}">Keep shopping the computers</a>
     {% elif shopping_cart_is_empty %}
         Your shopping cart is empty. There is nothing to pay for.<br><br>
+        <a href="{% url 'all-products' %}">Keep shopping the computers</a>
     {% else %}
         <form method="POST">
             {% csrf_token %}
@@ -17,6 +19,6 @@
             <button type="submit" name="Pay">Pay</button>
         </form>
         <br>
-        <a href="{% url 'computer-list' %}">Keep shopping the computers</a>
+        <a href="{% url 'all-products' %}">Keep shopping the computers</a>
     {% endif %}
 {% endblock %}
