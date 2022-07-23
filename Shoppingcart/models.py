@@ -20,8 +20,8 @@ class ShoppingCart(models.Model):
             shopping_cart = ShoppingCart.objects.create(myuser=myuser)
 
         product_id = scratchTree.id
-        product_name = scratchTree.get_name_display() + ' ' + scratchTree.get_brand_display() + ' / ' \
-                       + str(scratchTree.height) + ' / ' + str(scratchTree.width) + ' / ' \
+        product_name = scratchTree.name + ' ' + scratchTree.brand + ' / Height: ' \
+                       + str(scratchTree.height) + ' / Width: ' + str(scratchTree.width) + ' / Length: ' \
                        + str(scratchTree.length) + ' / ' + scratchTree.get_color_display()
         price = scratchTree.price
         ShoppingCartItem.objects.create(product_id=product_id,
