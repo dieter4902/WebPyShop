@@ -7,4 +7,5 @@ urlpatterns = [
     path('show/<int:pk>/vote/<int:rating>/', views.vote, name='product-vote'),
     path('add/', views.product_create, name='product-create'),
     path('delete/<int:pk>/', views.product_delete, name='product-delete'),
+    path('search/', views.product_search, name='product-search'),
 ]

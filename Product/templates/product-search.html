@@ -1,10 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'home.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'Products/products_style.css' %}">
+{% endblock %}
+
+{% block title %}Search book{% endblock %}
+
+{% block logged_in_content %}
+<h2>Search book</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Search</button>
+    </form>
+    <br>
+    <br>
+
+    {% if show_results %}
+        <b>Products found:</b><br>
+        <ul>
+        {% for product in products_found %}
+            <a href="{% url 'product-detail' product.id %}"><b>{{ product.name }}</b></a>
+            gefunden
+            <br>
+        {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}
