@@ -57,26 +57,27 @@ def product_search(request):
         search_string_description = request.POST['description']
         search_string_brand = request.POST['brand']
         search_stars = request.POST['stars']
-        products_found = Product.objects.none()
+        products_found = Product.objects.all()
+        print(request.POST)
         # print(search_string_name)
         # bei post auf alle zugreife, volle in array stecken, mit for loop durchgehen und langsam filtern
         if search_string_name:
-            products_found = Product.objects.filter(name__contains=search_string_name)
+            products_found = products_found.filter(name__contains=search_string_name)
             print(type(products_found))
             print(products_found)
 
         if search_string_description:
-            products_found = Product.objects.filter(description__contains=search_string_description)
+            products_found = products_found.filter(description__contains=search_string_description)
             print(type(products_found))
             print(products_found)
 
         if search_string_brand:
-            products_found = Product.objects.filter(brand__contains=search_string_brand)
+            products_found = products_found.filter(brand__contains=search_string_brand)
             print(type(products_found))
             print(products_found)
 
         if search_stars:
-            products_found = Product.objects.filter(vote__stars__exact=search_stars) # vielleicht lieber _range
+            products_found = products_found.filter(vote__stars__gte=search_stars)
             print(search_stars)
 
         form_in_function_based_view = SearchForm()

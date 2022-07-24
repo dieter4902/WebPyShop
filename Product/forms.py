@@ -13,10 +13,16 @@ class SearchForm(forms.ModelForm):
     name = forms.CharField(required=False)
     description = forms.CharField(required=False)
     brand = forms.CharField(required=False)
+    MATERIALS = [
+        ("", ""),
+        ("p", "Plüsch"),
+        ("s", "Samt")
+    ]
+    material = forms.ChoiceField(initial='', choices=MATERIALS, required=False, )
 
     class Meta:
         model = Product
-        fields = ['name', 'description', 'brand']
+        fields = ['name', 'description', 'brand', 'material']
 
 
 class SearchStarsForm(forms.ModelForm):
