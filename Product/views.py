@@ -49,9 +49,25 @@ def product_delete(request, **kwargs):
 def product_search(request):
     if request.method == 'POST':
         search_string_name = request.POST['name']
-        print(search_string_name)
-        products_found = Product.objects.filter(name__contains=search_string_name)
-        print(products_found)
+        search_string_description = request.POST['description']
+        search_string_brand = request.POST['brand']
+        products_found = Product.objects.none()
+        # print(search_string_name)
+        #bei post auf alle zugreife, volle in array stecken, mit for loop durchgehen und langsam filtern
+        if search_string_name:
+            products_found = Product.objects.filter(name__contains=search_string_name)
+            print(type(products_found))
+            print(products_found)
+
+        if search_string_description:
+            products_found = Product.objects.filter(description__contains=search_string_description)
+            print(type(products_found))
+            print(products_found)
+
+        if search_string_brand:
+            products_found = Product.objects.filter(brand__contains=search_string_brand)
+            print(type(products_found))
+            print(products_found)
 
         form_in_function_based_view = SearchForm()
         context = {'form': form_in_function_based_view,

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Product
+from .models import Product, Vote
 
 
 class ProductForm(forms.ModelForm):
@@ -12,8 +12,8 @@ class ProductForm(forms.ModelForm):
 class SearchForm(forms.ModelForm):
     name = forms.CharField(required=False)
     description = forms.CharField(required=False)
+    brand = forms.CharField(required=False)
 
     class Meta:
         model = Product
-        fields = ['name', 'description']
-
+        fields = ['name', 'description', 'brand']
