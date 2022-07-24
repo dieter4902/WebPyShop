@@ -8,10 +8,12 @@
 {% block title %}Search book{% endblock %}
 
 {% block logged_in_content %}
-<h2>Search Product</h2>
+<h2>Search Product you want</h2>
     <form method="POST">
         {% csrf_token %}
+
         {{ form.as_p }}
+        {{ formStar.as_p }}
         <button type="submit">Search</button>
     </form>
     <br>

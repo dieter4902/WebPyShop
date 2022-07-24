@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import ProductForm, SearchForm
+from .forms import ProductForm, SearchForm, SearchStarsForm
 from .models import Product
 
 
@@ -51,9 +51,10 @@ def product_search(request):
         search_string_name = request.POST['name']
         search_string_description = request.POST['description']
         search_string_brand = request.POST['brand']
+        search_stars = request.POST['stars']
         products_found = Product.objects.none()
         # print(search_string_name)
-        #bei post auf alle zugreife, volle in array stecken, mit for loop durchgehen und langsam filtern
+        # bei post auf alle zugreife, volle in array stecken, mit for loop durchgehen und langsam filtern
         if search_string_name:
             products_found = Product.objects.filter(name__contains=search_string_name)
             print(type(products_found))
@@ -69,15 +70,23 @@ def product_search(request):
             print(type(products_found))
             print(products_found)
 
+        if search_stars:
+            products_found = Product.objects.filter(vote__stars__exact=search_stars) # vielleicht lieber _range
+            print(search_stars)
+
         form_in_function_based_view = SearchForm()
+        form_test = SearchStarsForm()
         context = {'form': form_in_function_based_view,
+                   'formStar': form_test,
                    'products_found': products_found,
                    'show_results': True}
         return render(request, 'product-search.html', context)
 
     else:
         form_in_function_based_view = SearchForm()
+        form_test = SearchStarsForm()
         context = {'form': form_in_function_based_view,
+                   'formStar': form_test,
                    'show_results': False}
         return render(request, 'product-search.html', context)
 

@@ -17,3 +17,11 @@ class SearchForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = ['name', 'description', 'brand']
+
+
+class SearchStarsForm(forms.ModelForm):
+    stars = forms.IntegerField(required=False, max_value=5)
+
+    class Meta:
+        model = Vote
+        fields = ['stars']
