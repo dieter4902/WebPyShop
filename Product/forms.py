@@ -6,7 +6,7 @@ class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = ['name', 'description', 'brand', 'color', 'material', 'height', 'width', 'length', 'stockwerke',
-                  'hoehlen', 'price']
+                  'hoehlen', 'price', 'product_picture']
 
 
 class CommentForm(forms.ModelForm):

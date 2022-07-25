@@ -56,6 +56,7 @@ class Product(models.Model):
                                       MinValueValidator(-3)
                                   ])
     price = models.IntegerField()
+    product_picture = models.ImageField(upload_to='product_pictures/', blank=True, null=True)
 
     class Meta:
         ordering = ['name', '-price']
