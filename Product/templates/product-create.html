@@ -8,7 +8,7 @@
         <script src="{% static 'jscolor.js' %}"></script>
     {% endblock %}
     <h2>Add product</h2>
-    <form method="POST">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <!--{{ form.as_table }}-->
         {{ form.as_p }}

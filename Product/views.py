@@ -38,7 +38,7 @@ def product_detail(request, **kwargs):
 
 def product_create(request):
     if request.method == 'POST':
-        form_in_my_function_based_view = ProductForm(request.POST)
+        form_in_my_function_based_view = ProductForm(request.POST, request.FILES,)
         form_in_my_function_based_view.instance.user = request.user
         if form_in_my_function_based_view.is_valid():
             form_in_my_function_based_view.save()
