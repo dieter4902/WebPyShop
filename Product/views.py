@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .forms import ProductForm, SearchForm, SearchStarsForm
-from .models import Product
+from .forms import ProductForm, SearchForm, SearchStarsForm, CommentForm
+from .models import Product, Comment
 from Shoppingcart.models import ShoppingCart
 
 
@@ -13,16 +13,26 @@ def product_list(request):
 def product_detail(request, **kwargs):
     product_id = kwargs['pk']
     product = Product.objects.get(id=product_id)
-    
-    if request.method == 'POST':
-        print(request)
-        print(request.path)
-        myuser = request.user
-        ShoppingCart.add_item(myuser, product)
 
+    if request.method == 'POST':
+
+        form = CommentForm(request.POST)
+        form.instance.user = request.user
+        form.instance.product = product
+        if form.is_valid():
+            form.save()
+        else:
+            print("TODO")
+            myuser = request.user
+            ShoppingCart.add_item(myuser, product)
+
+
+    comments = Comment.objects.filter(product=product)
     context = {'that_one_product': product,
+               'comments_for_that_one_product': comments,
                'voteCount': product.get_votes_count(),
-               'voteScore': product.get_votes_score()}
+               'voteScore': product.get_votes_score(),
+               'comment_form': CommentForm}
     return render(request, 'product-detail.html', context)
 
 
@@ -104,3 +114,17 @@ def vote(request, pk: str, rating: int):
     user = request.user
     product.vote(user, rating)
     return redirect('product-detail', pk=pk)
+
+
+def comment_vote(request, pk: str, up_or_down: str):
+    comment = Comment.objects.get(id=int(pk))
+    user = request.user
+    comment.vote(user, up_or_down)
+    return redirect('product-delete', pk=comment.product.id)
+
+
+def comment_delete(request, pk: str):
+    comment = Comment.objects.get(id=int(pk))
+    user = request.user
+    comment.c_delete(user)
+    return redirect('product-detail', pk=comment.product.id)

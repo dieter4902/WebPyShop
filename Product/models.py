@@ -105,4 +105,81 @@ class Vote(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.stars) + ' on ' + self.product.name + ' by ' + self.user.username
+        return str(self.stars) + ' on ' + self.product.name + ' by ' + self.user.name
+
+
+class Comment(models.Model):
+    text = models.TextField(max_length=500)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ['timestamp']
+        verbose_name = 'Comment'
+        verbose_name_plural = 'Comments'
+
+    def get_comment_prefix(self):
+        if len(self.text) > 50:
+            return self.text[:50] + '...'
+        else:
+            return self.text
+
+    def get_upvotes(self):
+        upvotes = Comment_Vote.objects.filter(up_or_down='U', comment=self)
+        return upvotes
+
+    def get_upvotes_count(self):
+        return len(self.get_upvotes())
+
+    def get_downvotes(self):
+        downvotes = Comment_Vote.objects.filter(up_or_down='D', comment=self)
+        return downvotes
+
+    def get_downvotes_count(self):
+        return len(self.get_downvotes())
+
+    def vote(self, user, up_or_down):
+        print(user)
+        had_vote = ""
+        for vote in self.get_downvotes():
+            if vote.user == user:
+                vote.delete()
+                had_vote = "down"
+        for vote in self.get_upvotes():
+            if vote.user == user:
+                vote.delete()
+                had_vote = "up"
+        if had_vote == up_or_down:
+            return
+        U_or_D = 'U'
+        if up_or_down == 'down':
+            U_or_D = 'D'
+        vote = Comment_Vote.objects.create(up_or_down=U_or_D, user=user, comment=self)
+
+    def c_delete(self, user):
+        print(user)
+        if user == self.user:
+            self.delete()
+
+    def __str__(self):
+        return self.get_comment_prefix() + ' (' + self.user.username + ')'
+
+    def __repr__(self):
+        return self.get_comment_prefix() + ' (' + self.user.username + ' / ' + str(self.timestamp) + ')'
+
+
+class Comment_Vote(models.Model):
+    VOTE_TYPES = [
+        ('U', 'up'),
+        ('D', 'down'),
+    ]
+    up_or_down = models.CharField(max_length=1, choices=VOTE_TYPES, )
+    timestamp = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.up_or_down + ' on ' + self.comment.text + ' by ' + self.user.username
