@@ -44,6 +44,17 @@
     <span>{{ voteCount }} ratings</span>
     <br><br>
 
+    {% if user.is_authenticated %}
+        <br>
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit">Add to shopping cart</button>
+        </form>
+    {% else %}
+        <br><a href="{% url 'login' %}">Login</a> to add to shopping cart
+        <br>
+    {%  endif %}
+
     <br>
     <a href="{% url 'product-delete' that_one_product.id %}">delete product</a>
     <br>

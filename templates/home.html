@@ -2,6 +2,19 @@
 {% block title %}Homepage Titel{% endblock %}
 {% block css %}{% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/css/bootstrap.css' %}">{% endblock %}
+
+{% block header %}
+    <a style="float: right;" href="{% url 'shopping-cart-show' %}">
+        Shopping Cart (
+        {% if user.is_authenticated %}
+            {{ request.user.count_shopping_cart_items }}
+        {% else %}
+            0
+        {% endif %}
+        )
+    </a>
+{% endblock %}
+
 {% block content %}
     <div class="container">
         Welcome
