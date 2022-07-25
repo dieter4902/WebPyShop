@@ -15,6 +15,8 @@ def product_detail(request, **kwargs):
     product = Product.objects.get(id=product_id)
     
     if request.method == 'POST':
+        print(request)
+        print(request.path)
         myuser = request.user
         ShoppingCart.add_item(myuser, product)
 
