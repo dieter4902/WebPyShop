@@ -1,5 +1,5 @@
 from django import forms
-from .models import Product, Vote
+from .models import Product, Vote, Comment
 
 
 class ProductForm(forms.ModelForm):
@@ -7,6 +7,16 @@ class ProductForm(forms.ModelForm):
         model = Product
         fields = ['name', 'description', 'brand', 'color', 'material', 'height', 'width', 'length', 'stockwerke',
                   'hoehlen', 'price']
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['text']
+        widgets = {
+            'user': forms.HiddenInput(),
+            'product': forms.HiddenInput(),
+        }
 
 
 class SearchForm(forms.ModelForm):
