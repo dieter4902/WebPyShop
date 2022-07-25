@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 
 class Product(models.Model):
     product_picture = models.ImageField(upload_to='product_pictures/', blank=True, null=True)
+    product_file = models.FileField(upload_to='product_files/', blank=True, null=True)
     COLOR_PALETTE = [
         ("#FFFFFF", "white",),
         ("#000000", "black",),
