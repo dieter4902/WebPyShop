@@ -41,13 +41,11 @@
 
     <span><small><small><small>{{ voteScore }}</small></small></small></span>
     {% for i in '12345'|make_list %}
-        <a href="{% url 'product-vote' that_one_product.id forloop.counter %}" style="text-decoration: none">
-            {% if voteScore >= forloop.counter %}
-                <img src="{% static 'Products/Star_full.png' %}" height="20" width="20" alt="">
-            {% else %}
-                <img src="{% static 'Products/Star_empty.png' %}" height="20" width="20" alt="">
-            {% endif %}
-        </a>
+        {% if voteScore >= forloop.counter %}
+            <img src="{% static 'Products/Star_full.png' %}" height="20" width="20" alt="">
+        {% else %}
+            <img src="{% static 'Products/Star_empty.png' %}" height="20" width="20" alt="">
+        {% endif %}
     {% endfor %}
     <span>{{ voteCount }} ratings</span>
     <br><br>
@@ -76,6 +74,14 @@
                 <span style="color: darkslategray">delete</span></a>
         {% endif %}
         <br>
+
+        {% for i in '12345'|make_list %}
+            {% if comment.rating >= forloop.counter %}
+                <img src="{% static 'Products/Star_full.png' %}" height="20" width="20" alt="">
+            {% else %}
+                <img src="{% static 'Products/Star_empty.png' %}" height="20" width="20" alt="">
+            {% endif %}
+        {% endfor %}
         {{ comment.text }}<br><br>
     {% endfor %}
 
@@ -83,7 +89,9 @@
         <b style="color: crimson">Do you have a comment for this Product?</b><br>
         <form method="POST">
             {% csrf_token %}
-            {{ comment_form.as_p }}
+            stars: {{ comment_form.rating }}
+            <br>
+            {{ comment_form.text }}
             <button type="submit">Add comment</button>
         </form>
     {% else %}
