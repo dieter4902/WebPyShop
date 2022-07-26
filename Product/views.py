@@ -6,7 +6,7 @@ from Shoppingcart.models import ShoppingCart
 
 def product_list(request):
     all_the_products = Product.objects.all()
-    context = {'all_the_products': all_the_products}
+    context = {'all_the_products': all_the_products, 'user': request.user}
     return render(request, 'product-list.html', context)
 
 
