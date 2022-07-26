@@ -12,7 +12,7 @@ class ProductForm(forms.ModelForm):
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ['text']
+        fields = ['text', 'rating']
         widgets = {
             'user': forms.HiddenInput(),
             'product': forms.HiddenInput(),
