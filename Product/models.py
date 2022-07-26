@@ -49,13 +49,13 @@ class Product(models.Model):
                                 choices=MATERIALS, )
     stockwerke = models.IntegerField(default=1,
                                      validators=[
-                                         MaxValueValidator(20),
-                                         MinValueValidator(-3)
+                                         MaxValueValidator(8),
+                                         MinValueValidator(0)
                                      ])
     hoehlen = models.IntegerField(default=1,
                                   validators=[
-                                      MaxValueValidator(20),
-                                      MinValueValidator(-3)
+                                      MaxValueValidator(8),
+                                      MinValueValidator(0)
                                   ])
     price = models.IntegerField()
 

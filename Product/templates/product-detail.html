@@ -28,7 +28,15 @@
             <td><b>Creator:</b></td>
             <td>{{ that_one_product.brand }}<br></td>
         </tr>
+        <tr>
+            <td><img src="{{ that_one_product.product_picture.url }}" height="150" width="150"><br></td>
+        </tr>
+        <tr>
+            <td><a href="{{ that_one_product.product_file.url }}">Product PDF</a><br></td>
+        </tr>
     </table>
+
+
 
 
     <span><small><small><small>{{ voteScore }}</small></small></small></span>

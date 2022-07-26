@@ -11,10 +11,12 @@
     <h2>Product list</h2>
     <ul>
         {% for product in all_the_products %}
-            <a href="{{ product.id }}/"><b>{{ product.name }}</b></a><br>
+            <a href="{{ product.id }}/"><b>{{ product.name }}</b><br>
             <!-- Alternative link: <a href="{% url 'product-detail' product.id %}">-->
-            {{ product.get_type_display }} / {{ product.get_fsk_display }} / {{ product.creator }}<br>
-            <br>
+            {% if product.product_picture != "" %}
+                <img src="{{ product.product_picture.url }}" height="150" width="150"><br>
+            {% endif %}
+            </a><br>
         {% endfor %}
     </ul>
 
