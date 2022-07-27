@@ -120,7 +120,7 @@ def comment_vote(request, pk: str, up_or_down: str):
     comment = Comment.objects.get(id=int(pk))
     user = request.user
     comment.vote(user, up_or_down)
-    return redirect('product-delete', pk=comment.product.id)
+    return redirect('product-detail', pk=comment.product.id)
 
 
 def comment_delete(request, pk: str):

@@ -1,5 +1,4 @@
 from decimal import Decimal
-from turtle import screensize
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
