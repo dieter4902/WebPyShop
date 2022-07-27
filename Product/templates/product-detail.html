@@ -4,6 +4,15 @@
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'Products/products_style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .checked {
+            color: orange;
+        }</style>
+{% endblock %}
+{% block scripts %}
+    <script src="{% static 'jscolor.js' %}"></script>
+    <script src="{% static 'main.js' %}" defer></script>
 {% endblock %}
 
 {% block title %}Product detail{% endblock %}
@@ -90,6 +99,11 @@
         <form method="POST">
             {% csrf_token %}
             stars: {{ comment_form.rating }}
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked" ></span>
+            <span class="fa fa-star checked"></span>
             <br>
             {{ comment_form.text }}
             <button type="submit">Add comment</button>

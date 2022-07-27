@@ -22,14 +22,15 @@ from django.shortcuts import redirect
 
 urlpatterns = [
                   path('', lambda req: redirect('/home/')),
-                  path('admin/', admin.site.urls),
-                  path('home/', TemplateView.as_view(template_name='home.html'), name='home'),
-                  path('useradmin/', include('Useradmin.urls')),
-                  path('useradmin/', include('django.contrib.auth.urls')),
-                  path('products/', include('Product.urls')),
-                  path('shoppingcart/', include('Shoppingcart.urls')),
-              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) \
-              + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    path('admin/', admin.site.urls),
+    path('home/', TemplateView.as_view(template_name='home.html'), name='home'),
+    path('useradmin/', include('Useradmin.urls')),
+    path('useradmin/', include('django.contrib.auth.urls')),
+    path('products/', include('Product.urls')),
+    path('shoppingcart/', include('Shoppingcart.urls')),
+]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -26,7 +26,6 @@ def product_detail(request, **kwargs):
             myuser = request.user
             ShoppingCart.add_item(myuser, product)
 
-
     comments = Comment.objects.filter(product=product)
     context = {'that_one_product': product,
                'comments_for_that_one_product': comments,
@@ -38,7 +37,7 @@ def product_detail(request, **kwargs):
 
 def product_create(request):
     if request.method == 'POST':
-        form_in_my_function_based_view = ProductForm(request.POST, request.FILES,)
+        form_in_my_function_based_view = ProductForm(request.POST, request.FILES, )
         form_in_my_function_based_view.instance.user = request.user
         if form_in_my_function_based_view.is_valid():
             form_in_my_function_based_view.save()
