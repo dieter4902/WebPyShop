@@ -17,25 +17,47 @@
 
 {% block content %}
     <div class="container">
-        Welcome
+        <p>Welcome</p>
     </div>
     {% if user.is_authenticated %}
-        <p>Hi {{ user.username }}!</p>
-        <a href="{% url 'logout' %}">logout</a>
-        {% block logged_in_content %}
-        {% endblock %}
+        <div class="container">
+            <p>Hi {{ user.username }}! <br>
+                <a href="{% url 'logout' %}">logout</a>
+            </p>
+            {% block logged_in_content %}
+                </div>
+            {% endblock %}
+        {% if user.is_staff %}
+            {# hier dann ein link zum service portal, wenn man service mit arbeiter ist, ähnlich wie user.is_authenticated #}
+            {# vielleicht und somit dann mit einer if, den Status dann abprüfen#}
+            <p>Customer service<br>
+                {# <a href="{% url '' %}">Customer service</a>#}
+            </p>
+        {% endif %}
     {% else %}
         <div class="container">
-            <p>You are not logged in</p>
-            <a href="{% url 'login' %}">login</a>
+            <p>You are not logged in <br>
+                <a href="{% url 'login' %}">login</a>
+            </p>
         </div>
         <br>
         <div class="container">
-
             {% block not_logged_in_content %}
-                <p>Need an Account? Click below!</p>
+                <p>Need an Account? Click below!<br>
             {% endblock %}
             <a href="{% url 'signup' %}">signup</a>
+            </p>
         </div>
     {% endif %}
+
+    <div class="container">
+        <p>Product list of all the scratch trees: <br>
+            <a href="{% url 'all-products' %}">Product list</a>
+        </p>
+    </div>
+    <div class="container">
+        <p>Search for a nice scratch tree: <br>
+            <a href="{% url 'product-search' %}">Product search</a>
+        </p>
+    </div>
 {% endblock %}
