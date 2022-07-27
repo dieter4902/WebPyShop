@@ -3,7 +3,7 @@
 
 {% block title %}Shopping cart{% endblock %}
 
-{% block content %}
+{% block logged_in_content %}
 <h2>Shopping cart</h2>
     {% for item in shopping_cart_items %}
         {{ item.product_name }}<br>
