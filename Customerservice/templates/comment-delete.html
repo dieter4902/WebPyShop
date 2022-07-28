@@ -3,26 +3,28 @@
 
 {% block title %}Comment delete{% endblock %}
 
-{% block logged_in_content %}
-<h2>Comment delete</h2>
+{% block content %}
+    <h2>Comment delete</h2>
     {% if not is_staff %}
-        You are not authorized to delete comments.<br><br>
+         <div>
+            <p>You're not supposed to be here. Go away!</p>
+        </div>
     {% endif %}
-
-    {% for comment in all_the_comments %}
-        <b style="color: darkgreen">{{ comment.myuser.username }} on {{ comment.timestamp }}</b><br>
-        {{ comment.text }}<br>
-
-        {% if is_staff %}
-            <form method="POST">
-                {% csrf_token %}
-                <input type="hidden" id="comment_id" name="comment_id" value="{{ comment.id }}">
-                <button type="submit" name="delete">Delete</button>
-            </form>
-        {% endif %}
-
-        <br>
-    {% endfor %}
-    <br>
-
+    {% if not all_the_comments %}
+        <p>There are no inappropriate comments.<br>
+            What are you doing then here?! Go away!</p>
+    {% else %}
+        {% for comment in all_the_comments %}
+            <b style="color: darkgreen">{{ comment.myuser.username }} on {{ comment.timestamp }}</b><br>
+            {{ comment.text }}<br>
+            {% if is_staff %}
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" id="comment_id" name="comment_id" value="{{ comment.id }}">
+                    <button type="submit" name="delete">Delete</button>
+                </form>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    <a href="{% url 'home' %}">Back to home!</a>
 {% endblock %}

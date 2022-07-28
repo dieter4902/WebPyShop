@@ -1,5 +1,5 @@
 {% extends "home.html" %}
-{% block title %}Homepage Titel{% endblock %}
+{% block title %}Customer page{% endblock %}
 
 {% block header %} {% endblock %}
 
@@ -16,15 +16,9 @@
                 </div>
             {% endblock %}
         {% if user.is_staff %}
-            {# hier dann ein link zum service portal, wenn man service mit arbeiter ist, ähnlich wie user.is_authenticated #}
-            {# vielleicht und somit dann mit einer if, den Status dann abprüfen#}
-            <div class="container">
-            <p>Customer service<br>
-                {# <a href="{% url '' %}">Customer service</a>#}
-            </p></div>
             <div class="container">
                 <p>Delete Comments: <br>
-                    <a href="{% url 'comment-delete' %}">Review innapropiate Comments</a>
+                    <a href="{% url 'comment-delete' %}">Review inappropriate Comments</a>
                 </p>
             </div>
             <div class="container">
@@ -34,6 +28,13 @@
             </div>
         {% endif %}
     {% else %}
-        <p>You are not authorized to access this site</p>
+        <p>You are not authorized to access this site.<br>
+            <b>Sadge on you!</b></p>
     {% endif %}
+
+    <div class="container">
+        <p>
+            <a href={% url 'home' %}>Back to home.</a>
+        </p>
+    </div>
 {% endblock %}

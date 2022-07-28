@@ -33,7 +33,7 @@
             {# vielleicht und somit dann mit einer if, den Status dann abprüfen#}
             <div class="container">
                 <p>Customer service<br>
-                    {#                     <a href="{% url 'customer-service' %}">Customer service</a>#}
+                    <a href="{% url 'portal' %}">Customer service</a>
                 </p>
             </div>
         {% endif %}
@@ -53,11 +53,6 @@
         </div>
     {% endif %}
 
-    {#    <div class="container">#}
-    {#        <p>Product list of all the scratch trees: <br>#}
-    {#            <a href="{% url 'all-products' %}">Product list</a>#}
-    {#        </p>#}
-    {#    </div>#}
     <div class="container">
         <p>Search for a nice scratch tree: <br>
             <a href="{% url 'product-search' %}">Product search</a>
