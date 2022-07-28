@@ -71,6 +71,7 @@ class Product(models.Model):
     def remove_vote(self, single_rating):
         score = self.get_votes_score()
         votes = self.get_votes()
+        single_rating = int(single_rating)
         endrating = round((score * votes - single_rating) * (votes - 1), 2)
         self.__setattr__('stars', endrating)
         self.save()
