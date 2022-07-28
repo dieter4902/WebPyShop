@@ -139,7 +139,7 @@ class Comment(models.Model):
     def c_delete(self, user):
         print(user)
         if user == self.user:
-            self.product.remove_vote(self.rating)
+            self.product.remove_vote(str(self.rating))
             self.delete()
 
     def __str__(self):
