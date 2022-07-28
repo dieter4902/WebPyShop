@@ -47,7 +47,7 @@ def product_create(request):
             form_in_my_function_based_view.save()
         else:
             pass
-        return redirect('all-products')
+        return redirect('product-search')
     else:
         form_in_my_function_based_view = ProductForm()
         context = {'form': form_in_my_function_based_view}
