@@ -12,4 +12,5 @@ urlpatterns = [
     path('show/<int:pk>/commentflag/', views.comment_flag, name='comment-flag'),
     path('show/<int:pk>/commentdelete/', views.comment_delete, name='comment-delete'),
     path('show/<int:pk>/pdf/', views.generate_PDF, name='pdf'),
+    path('edit/<int:pk>/', views.ProductEditView.as_view(), name='product-edit'),
 ]
