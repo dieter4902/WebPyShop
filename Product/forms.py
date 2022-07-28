@@ -5,8 +5,8 @@ from .models import Product, Vote, Comment
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['name', 'description', 'brand', 'color', 'material', 'height', 'width', 'length', 'stockwerke',
-                  'hoehlen', 'price', 'product_picture', 'product_file']
+        fields = ['name', 'description', 'brand', 'color', 'height', 'width', 'length',
+                  'price', 'product_picture']
 
 
 class CommentForm(forms.ModelForm):
@@ -26,20 +26,11 @@ class SearchForm(forms.ModelForm):
     height = forms.IntegerField(required=False, max_value=100, min_value=0)
     width = forms.IntegerField(required=False, max_value=500, min_value=0)
     length = forms.IntegerField(required=False, max_value=500, min_value=0)
-    weight = forms.IntegerField(required=False, max_value=500, min_value=0)
-    stockwerke = forms.IntegerField(required=False, max_value=20,min_value=0)
-    hoehlen = forms.IntegerField(required=False, max_value=20, min_value=0)
     price = forms.IntegerField(required=False,  min_value=0)
-    MATERIALS = [
-        ("", ""),
-        ("p", "Plüsch"),
-        ("s", "Samt")
-    ]
-    material = forms.ChoiceField(initial='', choices=MATERIALS, required=False, )
 
     class Meta:
         model = Product
-        fields = ['name', 'description', 'brand', 'material', 'height']
+        fields = ['name', 'description', 'brand', 'height']
 
 
 class SearchStarsForm(forms.ModelForm):
