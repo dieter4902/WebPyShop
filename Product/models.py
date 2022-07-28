@@ -133,6 +133,7 @@ class Comment(models.Model):
         print(user)
         if user == self.user:
             self.delete()
+            self.product.get_votes_score()
 
     def __int__(self):
         self.product.get_votes_score()
