@@ -63,12 +63,12 @@ def product_delete(request, **kwargs):
 
 
 def product_search(request):
+    products_found = Product.objects.all()
     if request.method == 'POST':
         search_string_name = request.POST['name']
         search_string_description = request.POST['description']
         search_string_brand = request.POST['brand']
         search_stars = request.POST['stars']
-        products_found = Product.objects.all()
         print(request.POST)
         # print(search_string_name)
         # bei post auf alle zugreife, volle in array stecken, mit for loop durchgehen und langsam filtern
@@ -91,17 +91,11 @@ def product_search(request):
             products_found = products_found.filter(stars__gte=search_stars)
             print(search_stars)
 
-        form_in_function_based_view = SearchForm()
-        context = {'form': form_in_function_based_view,
-                   'products_found': products_found,
-                   'show_results': True}
-        return render(request, 'product-search.html', context)
-
-    else:
-        form_in_function_based_view = SearchForm()
-        context = {'form': form_in_function_based_view,
-                   'show_results': False}
-        return render(request, 'product-search.html', context)
+    form_in_function_based_view = SearchForm()
+    context = {'form': form_in_function_based_view,
+               'products_found': products_found,
+               'show_results': True}
+    return render(request, 'product-search.html', context)
 
 
 def vote(request, pk: str, rating: int):

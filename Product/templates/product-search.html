@@ -1,36 +1,36 @@
 {% extends 'home.html' %}
 {% load static %}
 
-{% block css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'Products/products_style.css' %}">
-{% endblock %}
 
 {% block title %}Search book{% endblock %}
 
 {% block content %}
-    {% block logged_in_content %}
-        <h2>Search Product you want</h2>
-        <form method="POST">
-            {% csrf_token %}
+    <table>
+        <tr style="vertical-align: top">
+            <td>
+                <h2>Search Product you want</h2>
+                <form method="POST">
+                    {% csrf_token %}
 
-            {{ form.as_p }}
-            {{ formStar.as_p }}
-            <button type="submit">Search</button>
-        </form>
-        <br>
-        <br>
-
-        {% if show_results %}
-            <b>Products found:</b><br>
-            <ul>
-                {% for product in products_found %}
-                    <a href="{% url 'product-detail' product.id %}"><b>{{ product.name }}</b></a>
-                    gefunden
-                    <br>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endblock %}
+                    {{ form.as_p }}
+                    {{ formStar.as_p }}
+                    <button type="submit">Search</button>
+                </form>
+                <br>
+                <br>
+            </td>
+            <td>
+                {% if show_results %}
+                    <ul>
+                        {% for product in products_found %}
+                            <a href="{% url 'product-detail' product.id %}"><b>{{ product.name }} {{ product.stars }}</b></a>
+                            <br>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
 
     <p>
         <a href={% url 'all-products' %}>Back to the product view</a>
