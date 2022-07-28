@@ -6,21 +6,20 @@ from django.contrib.auth.models import User
 
 
 class Product(models.Model):
-    product_picture = models.ImageField(upload_to='product_pictures/', blank=False, null=True)
-    product_file = models.FileField(upload_to='product_files/', blank=False, null=True)
+    product_picture = models.ImageField(upload_to='product_pictures/', blank=True, null=True)
     COLOR_PALETTE = [
-        ("#FFFFFF", "white",),
-        ("#000000", "black",),
-        ("#696969", "gray",),
-        ("#A67133", "brown",),
-        ("#FF0000", "red",),
-        ("#FF8C00", "orange",),
-        ("#FFFF00", "yellow",),
-        ("#228B22", "green",),
-        ("#00FFFF", "cyan",),
-        ("#00BFFF", "blue",),
-        ("#8A2BE2", "purple",),
-        ("#FF00FF", "pink",),
+        ("#FFFFFF", "White",),
+        ("#000000", "Black",),
+        ("#696969", "Gray",),
+        ("#A67133", "Brown",),
+        ("#FF0000", "Red",),
+        ("#FF8C00", "Orange",),
+        ("#FFFF00", "Yellow",),
+        ("#228B22", "Green",),
+        ("#00FFFF", "Cyan",),
+        ("#00BFFF", "Blue",),
+        ("#8A2BE2", "Purple",),
+        ("#FF00FF", "Pink",),
     ]
 
     name = models.CharField(max_length=100)
@@ -44,7 +43,6 @@ class Product(models.Model):
 
     color = ColorField(choices=COLOR_PALETTE,
                        default='#000000')
-
     price = models.IntegerField()
     stars = models.FloatField(default=0, validators=[MaxValueValidator(5), MinValueValidator(0)])
 

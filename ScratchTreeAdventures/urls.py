@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.shortcuts import redirect
 from django.urls import include, path
 from django.views.generic import TemplateView
 from django.conf import settings
@@ -21,13 +22,14 @@ from django.conf.urls.static import static
 from django.shortcuts import redirect
 
 urlpatterns = [
-                  path('', lambda req: redirect('/home/')),
+    path('', lambda req: redirect('/home/')),
     path('admin/', admin.site.urls),
     path('home/', TemplateView.as_view(template_name='home.html'), name='home'),
     path('useradmin/', include('Useradmin.urls')),
     path('useradmin/', include('django.contrib.auth.urls')),
     path('products/', include('Product.urls')),
     path('shoppingcart/', include('Shoppingcart.urls')),
+    path('customerservice/', include('Customerservice.urls')),
 
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

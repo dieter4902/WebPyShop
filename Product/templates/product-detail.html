@@ -34,19 +34,12 @@
             <td><b>Creator:</b></td>
             <td>{{ that_one_product.brand }}<br></td>
         </tr>
-
-        {% if not pdf %}
-            <tr>
-                <td><img src="{{ that_one_product.product_picture.url }}" height="150" width="150"><br></td>
-            </tr>
-            <tr>
-                <td><a href="pdf">Product PDF</a><br></td>
-            </tr>
-        {% else %}
-            <tr>
-                <td><img src="{{ that_one_product.product_picture.path }}" height="150" width="150"><br></td>
-            </tr>
-        {% endif %}
+        <tr>
+            <td><img src="{{ that_one_product.product_picture.url }}" height="150" width="150"><br></td>
+        </tr>
+        <tr>
+            <td><a href="{% url 'pdf' that_one_product.id %}">Product PDF</a><br></td>
+        </tr>
     </table>
 
 

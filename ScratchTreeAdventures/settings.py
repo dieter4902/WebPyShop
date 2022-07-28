@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'Product.apps.ProductConfig',
     'Useradmin.apps.UseradminConfig',
     'Shoppingcart.apps.ShoppingcartConfig',
+    'Customerservice.apps.CustomerserviceConfig',
     'colorfield',
     'xhtml2pdf',
 ]
