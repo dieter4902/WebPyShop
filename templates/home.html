@@ -28,9 +28,11 @@
         {% if user.is_staff %}
             {# hier dann ein link zum service portal, wenn man service mit arbeiter ist, ähnlich wie user.is_authenticated #}
             {# vielleicht und somit dann mit einer if, den Status dann abprüfen#}
-            <p>Customer service<br>
-                {# <a href="{% url '' %}">Customer service</a>#}
-            </p>
+            <div class="container">
+                <p>Customer service<br>
+{#                     <a href="{% url 'customer-service' %}">Customer service</a>#}
+                </p>
+            </div>
         {% endif %}
     {% else %}
         <div class="container">
@@ -48,11 +50,11 @@
         </div>
     {% endif %}
 
-    <div class="container">
-        <p>Product list of all the scratch trees: <br>
-            <a href="{% url 'all-products' %}">Product list</a>
-        </p>
-    </div>
+    {#    <div class="container">#}
+    {#        <p>Product list of all the scratch trees: <br>#}
+    {#            <a href="{% url 'all-products' %}">Product list</a>#}
+    {#        </p>#}
+    {#    </div>#}
     <div class="container">
         <p>Search for a nice scratch tree: <br>
             <a href="{% url 'product-search' %}">Product search</a>

@@ -2,18 +2,22 @@
 
 {% block title %}Delete product{% endblock %}
 
-{% block logged_in_content %}
-    <h2>Delete product</h2>
-    <form method="post">{% csrf_token %}
-
-
-        <p>Are you sure you want to delete "{{ one_product.name }}"?</p>
-
-
-        <input type="submit" value="Confirm">
-    </form>
+{% block content %}
+    {% if user.is_staff %}
+        {% block logged_in_content %}
+            <h2>Delete product</h2>
+            <form method="post">{% csrf_token %}
+                <p>Are you sure you want to delete "{{ one_product.name }}"?</p>
+                <input type="submit" value="Confirm">
+                <p>
+                    <a href="{% url 'product-detail' one_product.id %}">Go back to the product</a>
+                </p>
+            </form>
+        {% endblock %}
+    {% else %}
+        {% block not_logged_in_content %}
+            <p>You must be a logged in staff member to delete products</p>
+        {% endblock %}
+    {% endif %}
 {% endblock %}
 
-{% block not_logged_in_content %}
-    <p>You must log in to delete products</p>
-{% endblock %}

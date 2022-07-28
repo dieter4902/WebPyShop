@@ -24,7 +24,7 @@
                     <ul>
                         {% for product in products_found %}
                             <a href="{% url 'product-detail' product.id %}">
-                                <img src="{{ product.product_picture.url }}" height="150"  alt=""width="150">{{ product.name }} {{ product.stars }}</a>
+                                <img src="{{ product.product_picture.url }}" height="150"  alt="picture of the product" width="150"> {{ product.name }} {{ product.stars }}</a>
                             <br>
                         {% endfor %}
                     </ul>
@@ -34,8 +34,12 @@
     </table>
 
     <p>
-        <a href={% url 'all-products' %}>Back to the product view</a>
+        <a href={% url 'product-search' %}>Reset Filter</a>
     </p>
+
+{#    <p>#}
+{#        <a href={% url 'all-products' %}>Back to the product view</a>#}
+{#    </p>#}
     <p>
         <a href={% url 'home' %}>Back to home</a>
     </p>

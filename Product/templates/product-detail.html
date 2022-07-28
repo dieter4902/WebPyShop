@@ -120,9 +120,11 @@
         {% endif %}
 
         <br>
-        <a href="{% url 'product-delete' that_one_product.id %}">delete product</a>
-        <br>
-        <a href="{% url 'all-products' %}">Back to all products</a>
+        {% if user.is_staff %}
+            <a href="{% url 'product-delete' that_one_product.id %}">delete product</a>
+            <br>
+        {% endif %}
+        <a href="{% url 'product-search' %}">Back to the product search</a>
     {% else %}
         {% block header %}
         {% endblock %}
