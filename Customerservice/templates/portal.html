@@ -1,0 +1,39 @@
+{% extends "home.html" %}
+{% block title %}Homepage Titel{% endblock %}
+
+{% block header %} {% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+    <div class="container">
+        <p>Your base of Operation</p>
+    </div>
+        <div class="container">
+            <p>Hi {{ user.username }}! <br>
+                <a href="{% url 'logout' %}">logout</a>
+            </p>
+            {% block logged_in_content %}
+                </div>
+            {% endblock %}
+        {% if user.is_staff %}
+            {# hier dann ein link zum service portal, wenn man service mit arbeiter ist, ähnlich wie user.is_authenticated #}
+            {# vielleicht und somit dann mit einer if, den Status dann abprüfen#}
+            <div class="container">
+            <p>Customer service<br>
+                {# <a href="{% url '' %}">Customer service</a>#}
+            </p></div>
+            <div class="container">
+                <p>Delete Comments: <br>
+                    <a href="{% url 'comment-delete' %}">Review innapropiate Comments</a>
+                </p>
+            </div>
+            <div class="container">
+                <p>Create Product: <br>
+                    <a href="{% url 'product-create' %}">Add product</a>
+                </p>
+            </div>
+        {% endif %}
+    {% else %}
+        <p>You are not authorized to access this site</p>
+    {% endif %}
+{% endblock %}
