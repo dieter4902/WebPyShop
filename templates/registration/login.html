@@ -9,4 +9,17 @@
         {{ form.as_p }}
         <button type="submit">Login</button>
     </form>
+
+    <br>
+    <div>
+        <p>No account yet? <br>
+            <a href={% url 'signup' %}>Sign up here!</a>
+        </p>
+    </div>
+
+    <div>
+        <p>
+            <a href={% url 'home' %}>Back to home.</a>
+        </p>
+    </div>
 {% endblock %}

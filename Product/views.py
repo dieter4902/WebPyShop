@@ -1,12 +1,10 @@
 from django.shortcuts import render, redirect
-from .forms import ProductForm, SearchForm, SearchStarsForm, CommentForm
+from .forms import ProductForm, SearchForm, CommentForm
 from .models import Product, Comment
 from Shoppingcart.models import ShoppingCart
-
-from django.conf import settings
 from django.http import HttpResponse
 from django.template.loader import get_template
-from xhtml2pdf import pisa 
+from xhtml2pdf import pisa
 
 
 def product_list(request):
@@ -31,19 +29,19 @@ def product_detail(request, **kwargs):
             myuser = request.user
             ShoppingCart.add_item(myuser, product)
 
-
     comments = Comment.objects.filter(product=product)
     context = {'that_one_product': product,
                'comments_for_that_one_product': comments,
                'voteCount': product.get_votes_count(),
                'voteScore': product.get_votes_score(),
-               'comment_form': CommentForm}
+               'comment_form': CommentForm,
+               'pdf': False}
     return render(request, 'product-detail.html', context)
 
 
 def product_create(request):
     if request.method == 'POST':
-        form_in_my_function_based_view = ProductForm(request.POST, request.FILES,)
+        form_in_my_function_based_view = ProductForm(request.POST, request.FILES, )
         form_in_my_function_based_view.instance.user = request.user
         if form_in_my_function_based_view.is_valid():
             form_in_my_function_based_view.save()
@@ -69,12 +67,12 @@ def product_delete(request, **kwargs):
 
 
 def product_search(request):
+    products_found = Product.objects.all()
     if request.method == 'POST':
         search_string_name = request.POST['name']
         search_string_description = request.POST['description']
         search_string_brand = request.POST['brand']
         search_stars = request.POST['stars']
-        products_found = Product.objects.all()
         print(request.POST)
         # print(search_string_name)
         # bei post auf alle zugreife, volle in array stecken, mit for loop durchgehen und langsam filtern
@@ -94,24 +92,14 @@ def product_search(request):
             print(products_found)
 
         if search_stars:
-            products_found = products_found.filter(vote__stars__gte=search_stars)
+            products_found = products_found.filter(stars__gte=search_stars)
             print(search_stars)
 
-        form_in_function_based_view = SearchForm()
-        form_test = SearchStarsForm()
-        context = {'form': form_in_function_based_view,
-                   'formStar': form_test,
-                   'products_found': products_found,
-                   'show_results': True}
-        return render(request, 'product-search.html', context)
-
-    else:
-        form_in_function_based_view = SearchForm()
-        form_test = SearchStarsForm()
-        context = {'form': form_in_function_based_view,
-                   'formStar': form_test,
-                   'show_results': False}
-        return render(request, 'product-search.html', context)
+    form_in_function_based_view = SearchForm()
+    context = {'form': form_in_function_based_view,
+               'products_found': products_found,
+               'show_results': True}
+    return render(request, 'product-search.html', context)
 
 
 def vote(request, pk: str, rating: int):
@@ -135,22 +123,24 @@ def comment_delete(request, pk: str):
     return redirect('product-detail', pk=comment.product.id)
 
 
-
 def generate_PDF(request, **kwargs):
     product_id = kwargs['pk']
     product = Product.objects.get(id=product_id)
     user = request.user
+    comments = Comment.objects.filter(product=product)
     data = {'that_one_product': product,
-            'user': user}
+            'pdf': True,
+            'voteCount': product.get_votes_count(),
+            'voteScore': product.get_votes_score()}
 
     template = get_template('product-detail.html')
-    html  = template.render(dict(data))
+    html = template.render(dict(data))
 
     file = open('test.pdf', "w+b")
     pisaStatus = pisa.CreatePDF(html.encode('utf-8'), dest=file,
-            encoding='utf-8')
+                                encoding='utf-8')
 
     file.seek(0)
     pdf = file.read()
-    file.close()            
+    file.close()
     return HttpResponse(pdf, 'application/pdf')

@@ -2,8 +2,14 @@
 
 {% load static %}
 
-{% block css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'Products/products_style.css' %}">
+{% block scripts %}
+    <script src="{% static 'jscolor.js' %}"></script>
+    <script src="{% static 'main.js' %}" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .checked {
+            color: orange;
+        }</style>
 {% endblock %}
 
 {% block title %}Product detail{% endblock %}
@@ -39,7 +45,8 @@
 
 
 
-    <span><small><small><small>{{ voteScore }}</small></small></small></span>
+
+    <span><small>{{ voteScore }}</small></span>
     {% for i in '12345'|make_list %}
         {% if voteScore >= forloop.counter %}
             <img src="{% static 'Products/Star_full.png' %}" height="20" width="20" alt="">
@@ -50,57 +57,80 @@
     <span>{{ voteCount }} ratings</span>
     <br><br>
 
-    {% if user.is_authenticated %}
-        <br>
-        <form method="POST">
-            {% csrf_token %}
-            <button type="submit">Add to shopping cart</button>
-        </form>
-    {% else %}
-        <br><a href="{% url 'login' %}">Login</a> to add to shopping cart
-        <br>
-    {% endif %}
-
-    {% for comment in comments_for_that_one_product %}
-        <b style="color: darkgreen">{{ comment.user.username }} on {{ comment.timestamp }}</b>
-        <span style="color: darkgreen">{{ comment.get_upvotes_count }}</span>
-        <a href="{% url 'comment-vote' comment.id 'up' %}" style="text-decoration: none"><img
-                src="{% static 'Products/arrow_up.png' %}" height="20" width="20" alt=""></a>
-        <span style="color: crimson">{{ comment.get_downvotes_count }}</span>
-        <a href="{% url 'comment-vote' comment.id 'down' %}" style="text-decoration: none"><img
-                src="{% static 'Products/arrow_down.png' %}" height="20" width="20" alt=""></a>
-        {% if user.username == comment.user.username %}
-            <a href="{% url 'comment-delete' comment.id %}" style="text-decoration: none">
-                <span style="color: darkslategray">delete</span></a>
-        {% endif %}
-        <br>
-
-        {% for i in '12345'|make_list %}
-            {% if comment.rating >= forloop.counter %}
-                <img src="{% static 'Products/Star_full.png' %}" height="20" width="20" alt="">
-            {% else %}
-                <img src="{% static 'Products/Star_empty.png' %}" height="20" width="20" alt="">
-            {% endif %}
-        {% endfor %}
-        {{ comment.text }}<br><br>
-    {% endfor %}
-
-    {% if user.is_authenticated %}
-        <b style="color: crimson">Do you have a comment for this Product?</b><br>
-        <form method="POST">
-            {% csrf_token %}
-            stars: {{ comment_form.rating }}
+    {% if not pdf %}
+        {% if user.is_authenticated %}
             <br>
-            {{ comment_form.text }}
-            <button type="submit">Add comment</button>
-        </form>
-    {% else %}
-        <br><a href="{% url 'login' %}">Login</a> to add a product review
-        <br>
-    {% endif %}
+            <form method="POST">
+                {% csrf_token %}
+                <button type="submit">Add to shopping cart</button>
+            </form>
+        {% else %}
+            <br><a href="{% url 'login' %}">Login</a> to add to shopping cart
+            <br>
+        {% endif %}
 
-    <br>
-    <a href="{% url 'product-delete' that_one_product.id %}">delete product</a>
-    <br>
-    <a href="{% url 'all-products' %}">Back to all products</a>
+        {% for comment in comments_for_that_one_product %}
+            <b style="color: darkgreen">{{ comment.user.username }} on {{ comment.timestamp }}</b>
+            {% if user.is_authenticated %}
+                <span style="color: darkgreen">{{ comment.get_upvotes_count }}</span>
+                <a href="{% url 'comment-vote' comment.id 'up' %}" style="text-decoration: none"><img
+                        src="{% static 'Products/arrow_up.png' %}" height="20" width="20" alt=""></a>
+                <span style="color: crimson">{{ comment.get_downvotes_count }}</span>
+                <a href="{% url 'comment-vote' comment.id 'down' %}" style="text-decoration: none"><img
+                        src="{% static 'Products/arrow_down.png' %}" height="20" width="20" alt=""></a>
+                {% if user.id == comment.user.id  or user.is_staff == 1 %}
+                    <a href="{% url 'comment-delete' comment.id %}" style="text-decoration: none">
+                        <span style="color: darkslategray">delete</span></a>
+                {% endif %}
+            {% else %}
+                <span style="color: darkgreen">{{ comment.get_upvotes_count }}</span>
+                <img src="{% static 'Products/arrow_up.png' %}" height="20" width="20" alt="">
+                <span style="color: crimson">{{ comment.get_downvotes_count }}</span>
+                <img src="{% static 'Products/arrow_down.png' %}" height="20" width="20" alt="">
+                {% if user.id == comment.user.id  or user.is_staff == 1 %}
+                    <a href="{% url 'comment-delete' comment.id %}" style="text-decoration: none">
+                        <span style="color: darkslategray">delete</span></a>
+                {% endif %}
+            {% endif %}
+            <br>
+
+            {% for i in '12345'|make_list %}
+                {% if comment.rating >= forloop.counter %}
+                    <img src="{% static 'Products/Star_full.png' %}" height="20" width="20" alt="">
+                {% else %}
+                    <img src="{% static 'Products/Star_empty.png' %}" height="20" width="20" alt="">
+                {% endif %}
+            {% endfor %}
+            {{ comment.text }}<br><br>
+        {% endfor %}
+
+        {% if user.is_authenticated %}
+            <b style="color: crimson">Do you have a comment for this Product?</b><br>
+            <form method="POST">
+                {% csrf_token %}
+                stars: {{ comment_form.rating }}
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <br>
+                {{ comment_form.text }}
+                <button type="submit">Add comment</button>
+            </form>
+        {% else %}
+            <br><a href="{% url 'login' %}">Login</a> to add a product review
+            <br>
+        {% endif %}
+
+        <br>
+        {% if user.is_staff %}
+            <a href="{% url 'product-delete' that_one_product.id %}">delete product</a>
+            <br>
+        {% endif %}
+        <a href="{% url 'product-search' %}">Back to the product search</a>
+    {% else %}
+        {% block header %}
+        {% endblock %}
+    {% endif %}
 {% endblock %}

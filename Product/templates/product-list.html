@@ -1,9 +1,6 @@
 {% extends 'home.html' %}
 {% load static %}
 
-{% block css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'Products/products_style.css' %}">
-{% endblock %}
 
 {% block title %}Product list{% endblock %}
 
@@ -13,7 +10,7 @@
         {% for product in all_the_products %}
             <a href="{{ product.id }}/"><b>{{ product.name }}</b><br>
                 <!-- Alternative link: <a href="{% url 'product-detail' product.id %}">-->
-                {% if product.product_picture != "" %}
+                {% if product.product_picture !=  "" %}
                     <img src="{{ product.product_picture.url }}" height="150" width="150"><br>
                 {% endif %}
             </a><br>
@@ -24,5 +21,8 @@
         <br>
         <a href={% url 'product-create' %}>Add a new product</a>
     {% endif %}
+    <p>
+        <a href={% url 'home' %}>Back to home</a>
+    </p>
 {% endblock %}
 

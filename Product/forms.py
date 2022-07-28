@@ -1,13 +1,12 @@
 from django import forms
-from .models import Product, Vote, Comment
+from .models import Product, Comment
 
 
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['name', 'description', 'brand', 'color', 'height', 'width', 'length',
-                  'price', 'product_picture']
-
+        # fields = ['name', 'description', 'brand', 'color', 'height', 'width', 'length', 'price', 'product_picture', 'product_file']
+        fields = ['name', 'description', 'brand', 'color', 'height', 'width', 'length', 'price', 'product_picture']
 
 class CommentForm(forms.ModelForm):
     class Meta:
@@ -26,16 +25,16 @@ class SearchForm(forms.ModelForm):
     height = forms.IntegerField(required=False, max_value=100, min_value=0)
     width = forms.IntegerField(required=False, max_value=500, min_value=0)
     length = forms.IntegerField(required=False, max_value=500, min_value=0)
-    price = forms.IntegerField(required=False,  min_value=0)
+    price = forms.IntegerField(required=False, min_value=0)
+    stars = forms.IntegerField(required=False, max_value=5, min_value=0)
 
     class Meta:
         model = Product
-        fields = ['name', 'description', 'brand', 'height']
+        fields = ['name', 'description', 'brand', 'stars']
 
-
-class SearchStarsForm(forms.ModelForm):
-    stars = forms.IntegerField(required=False, max_value=5, min_value=1)
-
-    class Meta:
-        model = Vote
-        fields = ['stars']
+# class SearchStarsForm(forms.ModelForm):
+#    stars = forms.IntegerField(required=False, max_value=5, min_value=1)
+#
+#    class Meta:
+#        model = Product
+#        fields = ['stars']

@@ -43,9 +43,8 @@ class Product(models.Model):
 
     color = ColorField(choices=COLOR_PALETTE,
                        default='#000000')
-    
     price = models.IntegerField()
-
+    stars = models.FloatField(default=0, validators=[MaxValueValidator(5), MinValueValidator(0)])
 
     class Meta:
         ordering = ['name', '-price']
@@ -63,7 +62,16 @@ class Product(models.Model):
             product = 0
             for element in votes:
                 product += element.rating
+            self.__setattr__('stars', round(product / len(votes), 2))
+            self.save()
             return round(product / len(votes), 2)
+
+    def remove_vote(self, single_rating):
+        score = self.get_votes_score()
+        votes = self.get_votes_count()
+        endrating = round((score * votes - single_rating) * (votes - 1), 2)
+        self.__setattr__('stars', endrating)
+        self.save()
 
     def get_votes_count(self):
         return len(self.get_votes())
@@ -73,20 +81,6 @@ class Product(models.Model):
 
     def __repr__(self):
         return self.name + ' / ' + self.brand + ' / ' + str(self.price) + "€"
-
-
-class Vote(models.Model):
-    stars = models.IntegerField(validators=[
-        MaxValueValidator(5),
-        MinValueValidator(0)
-    ])
-    timestamp = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return str(self.stars) + ' on ' + self.product.name + ' by ' + self.user.name
 
 
 class Comment(models.Model):
@@ -143,6 +137,7 @@ class Comment(models.Model):
     def c_delete(self, user):
         print(user)
         if user == self.user:
+            self.product.remove_vote(self.rating)
             self.delete()
 
     def __str__(self):
