@@ -53,18 +53,18 @@
 
 
 
-    <span><small>{{ voteScore }}</small></span>
-    {% for i in '12345'|make_list %}
-        {% if voteScore >= forloop.counter %}
-            <img src="{% static 'Products/Star_full.png' %}" height="20" width="20" alt="">
-        {% else %}
-            <img src="{% static 'Products/Star_empty.png' %}" height="20" width="20" alt="">
-        {% endif %}
-    {% endfor %}
-    <span>{{ voteCount }} ratings</span>
-    <br><br>
 
     {% if not pdf %}
+        <span><small>{{ voteScore }}</small></span>
+        {% for i in '12345'|make_list %}
+            {% if voteScore >= forloop.counter %}
+                <img src="{% static 'Products/Star_full.png' %}" height="20" width="20" alt="">
+            {% else %}
+                <img src="{% static 'Products/Star_empty.png' %}" height="20" width="20" alt="">
+            {% endif %}
+        {% endfor %}
+        <span>{{ voteCount }} ratings</span>
+        <br><br>
         {% if user.is_authenticated %}
             <br>
             <form method="POST">
