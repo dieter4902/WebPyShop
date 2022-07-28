@@ -70,6 +70,7 @@ def product_search(request):
     products_found = Product.objects.all()
     if request.method == 'POST':
         search_string_name = request.POST['name']
+        search_string_description = request.POST['description']
         search_string_brand = request.POST['brand']
         search_stars = request.POST['stars']
         print(request.POST)
@@ -77,6 +78,11 @@ def product_search(request):
         # bei post auf alle zugreife, volle in array stecken, mit for loop durchgehen und langsam filtern
         if search_string_name:
             products_found = products_found.filter(name__contains=search_string_name)
+            print(type(products_found))
+            print(products_found)
+
+        if search_string_description:
+            products_found = products_found.filter(description__contains=search_string_description)
             print(type(products_found))
             print(products_found)
 
