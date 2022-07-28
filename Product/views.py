@@ -1,10 +1,13 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from .forms import ProductForm, SearchForm, CommentForm
 from .models import Product, Comment
 from Shoppingcart.models import ShoppingCart
 from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
+from django.views.generic import UpdateView
+from .forms import ProductEditForm
 
 
 def product_list(request):
@@ -47,7 +50,7 @@ def product_create(request):
             form_in_my_function_based_view.save()
         else:
             pass
-        return redirect('all-products')
+        return redirect('product-search')
     else:
         form_in_my_function_based_view = ProductForm()
         context = {'form': form_in_my_function_based_view}
@@ -144,3 +147,19 @@ def generate_PDF(request, **kwargs):
     pdf = file.read()
     file.close()
     return HttpResponse(pdf, 'application/pdf')
+
+
+class ProductEditView(UpdateView):
+    model = Product
+    form_class = ProductEditForm
+    template_name = 'product-edit.html'
+    success_url = reverse_lazy('product-search')
+
+    def get_context_data(self, **kwargs):
+        context = super(ProductEditView, self).get_context_data(**kwargs)
+        is_staff = False
+        myuser = self.request.user
+        if not myuser.is_anonymous:
+            is_staff = myuser.is_staff
+        context['is_staff'] = is_staff
+        return context
