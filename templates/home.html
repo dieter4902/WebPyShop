@@ -29,11 +29,9 @@
                 </div>
             {% endblock %}
         {% if user.is_staff %}
-            {# hier dann ein link zum service portal, wenn man service mit arbeiter ist, ähnlich wie user.is_authenticated #}
-            {# vielleicht und somit dann mit einer if, den Status dann abprüfen#}
             <div class="container">
-                <p>Customer service<br>
-                    <a href="{% url 'portal' %}">Customer service</a>
+                <p>Customer service portal<br>
+                    <a href="{% url 'portal' %}">Customer service portal</a>
                 </p>
             </div>
         {% endif %}
