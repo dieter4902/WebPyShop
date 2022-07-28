@@ -11,6 +11,16 @@ class Product(models.Model):
     COLOR_PALETTE = [
         ("#FFFFFF", "white",),
         ("#000000", "black",),
+        ("#696969", "gray",),
+        ("#A67133", "brown",),
+        ("#FF0000", "red",),
+        ("#FF8C00", "orange",),
+        ("#FFFF00", "yellow",),
+        ("#228B22", "green",),
+        ("#00FFFF", "cyan",),
+        ("#00BFFF", "blue",),
+        ("#8A2BE2", "purple",),
+        ("#FF00FF", "pink",),
     ]
 
     MATERIALS = [
