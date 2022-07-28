@@ -1,7 +1,7 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
-.pdf
+#.pdf
 # C extensions
 *.so
 
@@ -62,4 +62,4 @@ target/
 /venv/
 __pycache__/
 **/media/
-test.pdf
+#test.pdf
