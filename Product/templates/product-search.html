@@ -1,8 +1,9 @@
 {% extends 'home.html' %}
+{% load crispy_forms_filters %}
 {% load static %}
 
 
-{% block title %}Search book{% endblock %}
+{% block title %}Search product{% endblock %}
 
 {% block content %}
     <table>
@@ -12,9 +13,11 @@
                 <form method="POST">
                     {% csrf_token %}
 
-                    {{ form.as_p }}
+                    <div class="form-group col-md-10 mb-1">
+                        {{ form | crispy }}
+                    </div>
                     {{ formStar.as_p }}
-                    <button type="submit">Search</button>
+                    <button type="submit" class="btn btn-secondary">Add new product</button>
                     <p>
                         <br>
                         <a href={% url 'product-search' %}>Reset Filter</a>
