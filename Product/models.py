@@ -134,6 +134,9 @@ class Comment(models.Model):
         if user == self.user:
             self.delete()
 
+    def __int__(self):
+        self.product.get_votes_score()
+
     def __str__(self):
         return self.get_comment_prefix() + ' (' + self.user.username + ')'
 
