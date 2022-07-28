@@ -101,6 +101,10 @@ class Comment(models.Model):
         self.reported = True
         self.save()
 
+    def clear_flag(self):
+        self.reported = False
+        self.save()
+
     def get_comment_prefix(self):
         if len(self.text) > 50:
             return self.text[:50] + '...'
