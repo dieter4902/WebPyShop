@@ -2,11 +2,9 @@ from django.shortcuts import render, redirect
 from .forms import ProductForm, SearchForm, CommentForm
 from .models import Product, Comment
 from Shoppingcart.models import ShoppingCart
-
-from django.conf import settings
 from django.http import HttpResponse
 from django.template.loader import get_template
-from xhtml2pdf import pisa 
+from xhtml2pdf import pisa
 
 
 def product_list(request):
@@ -36,7 +34,8 @@ def product_detail(request, **kwargs):
                'comments_for_that_one_product': comments,
                'voteCount': product.get_votes_count(),
                'voteScore': product.get_votes_score(),
-               'comment_form': CommentForm}
+               'comment_form': CommentForm,
+               'pdf': False}
     return render(request, 'product-detail.html', context)
 
 
@@ -71,7 +70,6 @@ def product_search(request):
     products_found = Product.objects.all()
     if request.method == 'POST':
         search_string_name = request.POST['name']
-        search_string_description = request.POST['description']
         search_string_brand = request.POST['brand']
         search_stars = request.POST['stars']
         print(request.POST)
@@ -79,11 +77,6 @@ def product_search(request):
         # bei post auf alle zugreife, volle in array stecken, mit for loop durchgehen und langsam filtern
         if search_string_name:
             products_found = products_found.filter(name__contains=search_string_name)
-            print(type(products_found))
-            print(products_found)
-
-        if search_string_description:
-            products_found = products_found.filter(description__contains=search_string_description)
             print(type(products_found))
             print(products_found)
 
@@ -124,22 +117,24 @@ def comment_delete(request, pk: str):
     return redirect('product-detail', pk=comment.product.id)
 
 
-
 def generate_PDF(request, **kwargs):
     product_id = kwargs['pk']
     product = Product.objects.get(id=product_id)
     user = request.user
+    comments = Comment.objects.filter(product=product)
     data = {'that_one_product': product,
-            'that_one_user': user}
+            'pdf': True,
+            'voteCount': product.get_votes_count(),
+            'voteScore': product.get_votes_score()}
 
     template = get_template('product-detail.html')
-    html  = template.render(dict(data))
+    html = template.render(dict(data))
 
     file = open('test.pdf', "w+b")
     pisaStatus = pisa.CreatePDF(html.encode('utf-8'), dest=file,
-            encoding='utf-8')
+                                encoding='utf-8')
 
     file.seek(0)
     pdf = file.read()
-    file.close()            
+    file.close()
     return HttpResponse(pdf, 'application/pdf')

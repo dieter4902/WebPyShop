@@ -23,11 +23,6 @@ class Product(models.Model):
         ("#FF00FF", "pink",),
     ]
 
-    MATERIALS = [
-        ("p", "Plüsch",),
-        ("s", "Samt",)
-    ]
-
     name = models.CharField(max_length=100)
     brand = models.CharField(max_length=100)
     description = models.CharField(max_length=420)
@@ -46,27 +41,10 @@ class Product(models.Model):
                                      MaxValueValidator(500),
                                      MinValueValidator(0)
                                  ])
-    weight = models.IntegerField(default=0,
-                                 validators=[  # in kilo
-                                     MaxValueValidator(1000),
-                                     MinValueValidator(0)
-                                 ])
 
     color = ColorField(choices=COLOR_PALETTE,
                        default='#000000')
 
-    material = models.CharField(max_length=1,
-                                choices=MATERIALS, )
-    stockwerke = models.IntegerField(default=1,
-                                     validators=[
-                                         MaxValueValidator(8),
-                                         MinValueValidator(0)
-                                     ])
-    hoehlen = models.IntegerField(default=1,
-                                  validators=[
-                                      MaxValueValidator(8),
-                                      MinValueValidator(0)
-                                  ])
     price = models.IntegerField()
     stars = models.FloatField(default=0, validators=[MaxValueValidator(5), MinValueValidator(0)])
 
@@ -92,7 +70,6 @@ class Product(models.Model):
 
     def get_votes_count(self):
         return len(self.get_votes())
-
 
     def __str__(self):
         return self.name + ' (' + self.brand + ')'

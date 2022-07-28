@@ -23,7 +23,8 @@
                 {% if show_results %}
                     <ul>
                         {% for product in products_found %}
-                            <a href="{% url 'product-detail' product.id %}"><b>{{ product.name }} {{ product.stars }}</b></a>
+                            <a href="{% url 'product-detail' product.id %}">
+                                <img src="{{ product.product_picture.url }}" height="150"  alt=""width="150">{{ product.name }} {{ product.stars }}</a>
                             <br>
                         {% endfor %}
                     </ul>
