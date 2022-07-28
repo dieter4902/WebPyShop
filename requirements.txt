@@ -2,3 +2,4 @@ Django
 django-colorfield
 Pillow
 xhtml2pdf
+django-crispy-forms
