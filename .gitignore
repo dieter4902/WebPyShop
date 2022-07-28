@@ -1,7 +1,7 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
-
+.pdf
 # C extensions
 *.so
 
@@ -43,6 +43,7 @@ nosetests.xml
 coverage.xml
 *,cover
 
+
 # Translations
 *.mo
 *.pot
@@ -61,3 +62,4 @@ target/
 /venv/
 __pycache__/
 **/media/
+test.pdf

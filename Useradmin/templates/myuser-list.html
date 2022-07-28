@@ -1,0 +1,20 @@
+{% extends 'home.html' %}
+
+{% block title %}Users list{% endblock %}
+
+{% block content %}
+{% if user.is_staff %}
+<h2>Users list</h2>
+<ul>
+    {% for myuser in all_myusers %}
+        {{myuser.username}}<br> {{ myuser.first_name }}<br> {{ myuser.last_name }}<br> {{ myuser.email }}<br>
+        {% if myuser.profile_picture %}
+            <img src="{{ myuser.profile_picture.url }}" height="150" width="150"><br>
+        {% endif %}
+        <br>
+    {% endfor %}
+</ul>
+{% else %}
+<ul> You are not allowed to view this content </ul>
+{% endif %}
+{% endblock %}

@@ -23,7 +23,16 @@
                 {% if show_results %}
                     <ul>
                         {% for product in products_found %}
-                            <a href="{% url 'product-detail' product.id %}"><b>{{ product.name }} {{ product.stars }}</b></a>
+                            <a href="{% url 'product-detail' product.id %}" style="text-decoration:none">
+                                <img src="{{ product.product_picture.url }}" height="150" alt=""
+                                     width="150">{{ product.name }} {{ product.stars }}
+                                {% for i in '12345'|make_list %}
+                                    {% if product.stars >= forloop.counter %}
+                                        <img src="{% static 'Products/Star_full.png' %}" height="20" width="20" alt="">
+                                    {% else %}
+                                        <img src="{% static 'Products/Star_empty.png' %}" height="20" width="20" alt="">
+                                    {% endif %}
+                                {% endfor %}</a>
                             <br>
                         {% endfor %}
                     </ul>
@@ -33,8 +42,12 @@
     </table>
 
     <p>
-        <a href={% url 'all-products' %}>Back to the product view</a>
+        <a href={% url 'product-search' %}>Reset Filter</a>
     </p>
+
+{#    <p>#}
+{#        <a href={% url 'all-products' %}>Back to the product view</a>#}
+{#    </p>#}
     <p>
         <a href={% url 'home' %}>Back to home</a>
     </p>

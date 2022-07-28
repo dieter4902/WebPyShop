@@ -4,7 +4,7 @@ from django.shortcuts import redirect, render
 from .forms import PaymentForm
 from .models import ShoppingCart, ShoppingCartItem
 
-
+@login_required(login_url='/useradmin/login/')
 def show_shopping_cart(request):
     if request.method == 'POST':
         if 'empty' in request.POST:

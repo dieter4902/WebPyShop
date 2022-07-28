@@ -1,0 +1,19 @@
+{% extends 'home.html' %}
+
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <h2>My Profile</h2>
+            <ul>Username: {{myuser.username}}<br> First Name: {{ myuser.first_name }}<br> Last Name: {{ myuser.last_name }}<br> E-Mail: {{ myuser.email }}<br>
+            {% if myuser.profile_picture %} <!-- need this for MySql to work -->
+                <img src="{{ myuser.profile_picture.url }}" height="150" width="150"><br>
+            {% endif %}
+        <br>
+        </ul>
+    {% else %}
+    <ul>You are not logged in <br>
+        <a href="{% url 'login' %}">login</a>
+    </ul>
+    {% endif %}
+{% endblock %}
