@@ -31,4 +31,13 @@ class SearchForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = ['name', 'description', 'brand', 'stars']
+        
+class ProductEditForm(forms.ModelForm):
+
+    class Meta:
+        model = Product
+        fields = ['name', 'description', 'brand', 'color', 'height', 'width', 'length', 'price', 'product_picture']
+        widgets = {
+            'product_id': forms.HiddenInput(),
+        }
 

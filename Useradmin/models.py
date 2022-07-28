@@ -5,7 +5,7 @@ from Shoppingcart.models import ShoppingCart
 
 
 class MyUser(AbstractUser):
-    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
+    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=False, null=True)
     favourite_cat = models.CharField(max_length=100)
     
     def count_shopping_cart_items(self):

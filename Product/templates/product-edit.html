@@ -1,0 +1,22 @@
+{% extends 'home.html' %}
+{% load static %}
+
+{% block title %}Product edit{% endblock %}
+
+{% block logged_in_content %}
+<h2>Comment edit</h2>
+    {% if not is_staff %}
+        You are not authorized to edit Products.<br><br>
+    {% endif %}
+
+    <b style="color: darkgreen">{{ comment.myuser.username }} on {{ comment.timestamp }}</b><br>
+    {% if is_staff %}
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Edit</button>
+        </form>
+    {% else %}
+        {{ comment.text }}<br>
+    {% endif %}
+{% endblock %}

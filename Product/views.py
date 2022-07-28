@@ -1,10 +1,13 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from .forms import ProductForm, SearchForm, CommentForm
 from .models import Product, Comment
 from Shoppingcart.models import ShoppingCart
 from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
+from django.views.generic import UpdateView
+from .forms import ProductEditForm
 
 
 def product_detail(request, **kwargs):
@@ -108,6 +111,12 @@ def comment_vote(request, pk: str, up_or_down: str):
     return redirect('product-detail', pk=comment.product.id)
 
 
+def comment_flag(request, pk: str):
+    comment = Comment.objects.get(id=int(pk))
+    comment.set_flag()
+    return redirect('product-detail', pk=comment.product.id)
+
+
 def comment_delete(request, pk: str):
     comment = Comment.objects.get(id=int(pk))
     user = request.user
@@ -136,3 +145,19 @@ def generate_PDF(request, **kwargs):
     pdf = file.read()
     file.close()
     return HttpResponse(pdf, 'application/pdf')
+
+
+class ProductEditView(UpdateView):
+    model = Product
+    form_class = ProductEditForm
+    template_name = 'product-edit.html'
+    success_url = reverse_lazy('product-search')
+
+    def get_context_data(self, **kwargs):
+        context = super(ProductEditView, self).get_context_data(**kwargs)
+        is_staff = False
+        myuser = self.request.user
+        if not myuser.is_anonymous:
+            is_staff = myuser.is_staff
+        context['is_staff'] = is_staff
+        return context

@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 
 class Product(models.Model):
-    product_picture = models.ImageField(upload_to='product_pictures/', blank=True, null=True)
+    product_picture = models.ImageField(upload_to='product_pictures/', blank=False, null=True)
     COLOR_PALETTE = [
         ("#FFFFFF", "White",),
         ("#000000", "Black",),
@@ -90,11 +90,16 @@ class Comment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    reported = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['timestamp']
         verbose_name = 'Comment'
         verbose_name_plural = 'Comments'
+
+    def set_flag(self):
+        self.reported = True
+        self.save()
 
     def get_comment_prefix(self):
         if len(self.text) > 50:
@@ -135,8 +140,9 @@ class Comment(models.Model):
         vote = Comment_Vote.objects.create(up_or_down=U_or_D, user=user, comment=self)
 
     def c_delete(self, user):
-        print(user)
-        if user == self.user:
+        print(user.is_staff)
+        if user == self.user or user.is_staff:
+            print("e")
             self.product.remove_vote(self.rating)
             self.delete()
 

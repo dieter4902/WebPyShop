@@ -81,6 +81,9 @@
                 {% if user.id == comment.user.id  or user.is_staff == 1 %}
                     <a href="{% url 'comment-delete' comment.id %}" style="text-decoration: none">
                         <span style="color: darkslategray">delete</span></a>
+                {% else %}
+                    <a href="{% url 'comment-flag' comment.id %}" style="text-decoration: none">
+                        <img src="{% static 'report-flag.png' %}" height="20" width="20" alt=""></a>
                 {% endif %}
             {% else %}
                 <span style="color: darkgreen">{{ comment.get_upvotes_count }}</span>
@@ -92,6 +95,7 @@
                         <span style="color: darkslategray">delete</span></a>
                 {% endif %}
             {% endif %}
+
             <br>
 
             {% for i in '12345'|make_list %}
@@ -129,7 +133,9 @@
             <br>
         {% endif %}
         <a href="{% url 'product-search' %}">Back to the product search</a>
-    {% else %}
+    {% endif %}
+
+    {% if pdf %}
         {% block header %}
         {% endblock %}
     {% endif %}
