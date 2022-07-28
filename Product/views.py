@@ -113,8 +113,21 @@ def comment_vote(request, pk: str, up_or_down: str):
 
 def comment_flag(request, pk: str):
     comment = Comment.objects.get(id=int(pk))
-    comment.set_flag()
-    return redirect('product-detail', pk=comment.product.id)
+    if request.user:
+        comment.set_flag()
+        return redirect('product-detail', pk=comment.product.id)
+    else:
+        return redirect('home')
+
+
+def comment_flag_remove(request, pk: str):
+    print("eee")
+    if request.user.is_staff:
+        comment = Comment.objects.get(id=int(pk))
+        comment.clear_flag()
+        return redirect('comment-delete')
+    else:
+        return redirect('home')
 
 
 def comment_delete(request, pk: str):
