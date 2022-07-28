@@ -78,7 +78,7 @@
         <span style="color: crimson">{{ comment.get_downvotes_count }}</span>
         <a href="{% url 'comment-vote' comment.id 'down' %}" style="text-decoration: none"><img
                 src="{% static 'Products/arrow_down.png' %}" height="20" width="20" alt=""></a>
-        {% if user.username == comment.user.username %}
+        {% if user.id == comment.user.id  or user.is_staff == 1%}
             <a href="{% url 'comment-delete' comment.id %}" style="text-decoration: none">
                 <span style="color: darkslategray">delete</span></a>
         {% endif %}

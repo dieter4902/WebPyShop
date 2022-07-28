@@ -28,6 +28,7 @@ urlpatterns = [
     path('useradmin/', include('django.contrib.auth.urls')),
     path('products/', include('Product.urls')),
     path('shoppingcart/', include('Shoppingcart.urls')),
+
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
