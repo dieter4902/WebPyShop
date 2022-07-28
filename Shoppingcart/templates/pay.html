@@ -7,7 +7,6 @@
 <h2>Payment</h2>
     {% if paid %}
         Thank you for your payment.<br><br>
-        <a href="{% url 'all-products' %}">Keep shopping the computers</a>
     {% elif shopping_cart_is_empty %}
         Your shopping cart is empty. There is nothing to pay for.<br><br>
         <a href="{% url 'all-products' %}">Keep shopping the computers</a>
@@ -19,6 +18,6 @@
             <button type="submit" name="Pay">Pay</button>
         </form>
         <br>
-        <a href="{% url 'all-products' %}">Keep shopping the computers</a>
     {% endif %}
+     <a href="{% url 'product-search' %}">Keep shopping the scratch trees</a>
 {% endblock %}

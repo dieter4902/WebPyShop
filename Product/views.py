@@ -7,12 +7,6 @@ from django.template.loader import get_template
 from xhtml2pdf import pisa
 
 
-def product_list(request):
-    all_the_products = Product.objects.all()
-    context = {'all_the_products': all_the_products, 'user': request.user}
-    return render(request, 'product-list.html', context)
-
-
 def product_detail(request, **kwargs):
     product_id = kwargs['pk']
     product = Product.objects.get(id=product_id)
@@ -47,7 +41,7 @@ def product_create(request):
             form_in_my_function_based_view.save()
         else:
             pass
-        return redirect('all-products')
+        return redirect('product-search')
     else:
         form_in_my_function_based_view = ProductForm()
         context = {'form': form_in_my_function_based_view}
@@ -74,8 +68,6 @@ def product_search(request):
         search_string_brand = request.POST['brand']
         search_stars = request.POST['stars']
         print(request.POST)
-        # print(search_string_name)
-        # bei post auf alle zugreife, volle in array stecken, mit for loop durchgehen und langsam filtern
         if search_string_name:
             products_found = products_found.filter(name__contains=search_string_name)
             print(type(products_found))

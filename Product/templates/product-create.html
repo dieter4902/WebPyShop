@@ -1,6 +1,6 @@
 {% extends 'home.html' %}
+{% load crispy_forms_filters %}
 {% load static %}
-{%  load crispy_forms_tags %}
 
 {% block title %}Add product{% endblock %}
 
@@ -11,16 +11,9 @@
     <h2>Add product</h2>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-{#        <!--{{ form.as_table }}-->#}
-{#        {{ form.as_p }}#}
-
-{#        {{ form | crispy }}#}
-        {% crispy form %}
-
-{#        <!--{{ form.name.label }}: {{ form.name }}<br><br>#}
-{#        {{ form.description.label }}: {{ form.description }}<br><br>#}
-{#        {{ form.brand.label }}: {{ form.brand }}<br><br>#}
-{#        {{ form.color.label }}: {{ form.color }}<br><br>-->#}
+        <div class="form-group col-md-3 mb-1">
+            {{ form | crispy }}
+        </div>
 
         <button type="submit">Add product</button>
     </form>
