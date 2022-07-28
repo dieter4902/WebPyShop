@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import ProductForm, SearchForm, SearchStarsForm, CommentForm
+from .forms import ProductForm, SearchForm, CommentForm
 from .models import Product, Comment
 from Shoppingcart.models import ShoppingCart
 
@@ -88,22 +88,18 @@ def product_search(request):
             print(products_found)
 
         if search_stars:
-            products_found = products_found.filter(vote__stars__gte=search_stars)
+            products_found = products_found.filter(stars__gte=search_stars)
             print(search_stars)
 
         form_in_function_based_view = SearchForm()
-        form_test = SearchStarsForm()
         context = {'form': form_in_function_based_view,
-                   'formStar': form_test,
                    'products_found': products_found,
                    'show_results': True}
         return render(request, 'product-search.html', context)
 
     else:
         form_in_function_based_view = SearchForm()
-        form_test = SearchStarsForm()
         context = {'form': form_in_function_based_view,
-                   'formStar': form_test,
                    'show_results': False}
         return render(request, 'product-search.html', context)
 
