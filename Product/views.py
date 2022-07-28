@@ -3,6 +3,11 @@ from .forms import ProductForm, SearchForm, SearchStarsForm, CommentForm
 from .models import Product, Comment
 from Shoppingcart.models import ShoppingCart
 
+from django.conf import settings
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa 
+
 
 def product_list(request):
     all_the_products = Product.objects.all()
@@ -128,3 +133,24 @@ def comment_delete(request, pk: str):
     user = request.user
     comment.c_delete(user)
     return redirect('product-detail', pk=comment.product.id)
+
+
+
+def generate_PDF(request, **kwargs):
+    product_id = kwargs['pk']
+    product = Product.objects.get(id=product_id)
+    user = request.user
+    data = {'that_one_product': product,
+            'that_one_user': user}
+
+    template = get_template('product-detail.html')
+    html  = template.render(dict(data))
+
+    file = open('test.pdf', "w+b")
+    pisaStatus = pisa.CreatePDF(html.encode('utf-8'), dest=file,
+            encoding='utf-8')
+
+    file.seek(0)
+    pdf = file.read()
+    file.close()            
+    return HttpResponse(pdf, 'application/pdf')

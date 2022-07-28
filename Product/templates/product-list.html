@@ -13,9 +13,9 @@
         {% for product in all_the_products %}
             <a href="{{ product.id }}/"><b>{{ product.name }}</b><br>
                 <!-- Alternative link: <a href="{% url 'product-detail' product.id %}">-->
-                {% comment %} {% if product.product_picture != "" %}
+                {% if product.product_picture != "" %}
                     <img src="{{ product.product_picture.url }}" height="150" width="150"><br>
-                {% endif %} {% endcomment %}
+                {% endif %}
             </a><br>
         {% endfor %}
     </ul>

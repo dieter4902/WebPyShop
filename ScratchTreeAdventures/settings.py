@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'Product.apps.ProductConfig',
     'Useradmin.apps.UseradminConfig',
     'Shoppingcart.apps.ShoppingcartConfig',
-    'colorfield'
+    'colorfield',
+    'xhtml2pdf',
 ]
 
 MIDDLEWARE = [
