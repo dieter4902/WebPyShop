@@ -116,6 +116,12 @@ def comment_vote(request, pk: str, up_or_down: str):
     return redirect('product-detail', pk=comment.product.id)
 
 
+def comment_flag(request, pk: str):
+    comment = Comment.objects.get(id=int(pk))
+    comment.set_flag()
+    return redirect('product-detail', pk=comment.product.id)
+
+
 def comment_delete(request, pk: str):
     comment = Comment.objects.get(id=int(pk))
     user = request.user

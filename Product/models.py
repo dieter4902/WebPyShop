@@ -90,11 +90,16 @@ class Comment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    reported = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['timestamp']
         verbose_name = 'Comment'
         verbose_name_plural = 'Comments'
+
+    def set_flag(self):
+        self.reported = True
+        self.save()
 
     def get_comment_prefix(self):
         if len(self.text) > 50:
@@ -136,7 +141,7 @@ class Comment(models.Model):
 
     def c_delete(self, user):
         print(user)
-        if user == self.user:
+        if user is self.user or user.is_staff:
             self.product.remove_vote(self.rating)
             self.delete()
 

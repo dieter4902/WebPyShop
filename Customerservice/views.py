@@ -7,7 +7,7 @@ from .forms import CommentEditForm
 from Product.models import Comment
 
 
-#class CommentDeleteView(LoginRequiredMixin, ListView):
+# class CommentDeleteView(LoginRequiredMixin, ListView):
 #    login_url = '/useradmin/login/'
 class CommentDeleteView(ListView):
     model = Comment
@@ -21,6 +21,7 @@ class CommentDeleteView(ListView):
         if not myuser.is_anonymous:
             is_staff = myuser.is_staff
         context['is_staff'] = is_staff
+        context['all_the_comments'] = context.get("all_the_comments").filter(reported=True)
         return context
 
     def post(self, request, *args, **kwargs):
@@ -46,7 +47,7 @@ class CommentEditView(UpdateView):
         return context
 
 
-#@staff_member_required(login_url='/useradmin/login/')
+# @staff_member_required(login_url='/useradmin/login/')
 def comment_edit_delete(request, pk: str):
     comment_id = pk
     if request.method == 'POST':
@@ -73,5 +74,5 @@ def comment_edit_delete(request, pk: str):
         context = {'form': form,
                    'is_staff': is_staff,
                    'comment': comment,
-                  }
+                   }
         return render(request, 'comment-edit-delete.html', context)
