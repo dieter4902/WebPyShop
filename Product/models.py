@@ -140,8 +140,9 @@ class Comment(models.Model):
         vote = Comment_Vote.objects.create(up_or_down=U_or_D, user=user, comment=self)
 
     def c_delete(self, user):
-        print(user)
-        if user is self.user or user.is_staff:
+        print(user.is_staff)
+        if user == self.user or user.is_staff:
+            print("e")
             self.product.remove_vote(self.rating)
             self.delete()
 

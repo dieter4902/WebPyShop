@@ -133,7 +133,9 @@
             <br>
         {% endif %}
         <a href="{% url 'product-search' %}">Back to the product search</a>
-    {% else %}
+    {% endif %}
+
+    {% if pdf %}
         {% block header %}
         {% endblock %}
     {% endif %}
