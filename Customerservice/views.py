@@ -35,16 +35,26 @@ class CommentEditView(UpdateView):
     model = Comment
     form_class = CommentEditForm
     template_name = 'comment-edit.html'
-    success_url = reverse_lazy('comment-delete')
 
     def get_context_data(self, **kwargs):
         context = super(CommentEditView, self).get_context_data(**kwargs)
+        context['success'] = ''
+        print(context['success'])
         is_staff = False
         myuser = self.request.user
         if not myuser.is_anonymous:
             is_staff = myuser.is_staff
         context['is_staff'] = is_staff
         return context
+
+    def post(self, request, *args, **kwargs):
+        form = CommentEditForm(request.POST)
+        if form.is_valid():
+            comment = Comment.objects.get(id=self.kwargs['pk'])
+            new_text = form.cleaned_data['text']
+            comment.text = new_text
+            comment.save()
+            return redirect('product-detail', comment.product.id)
 
 
 # @staff_member_required(login_url='/useradmin/login/')

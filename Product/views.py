@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+
+from Customerservice.forms import CommentEditForm
 from .forms import ProductForm, SearchForm, CommentForm
 from .models import Product, Comment
 from Shoppingcart.models import ShoppingCart
@@ -15,7 +17,6 @@ def product_detail(request, **kwargs):
     product = Product.objects.get(id=product_id)
 
     if request.method == 'POST':
-
         form = CommentForm(request.POST)
         form.instance.user = request.user
         form.instance.product = product
@@ -174,3 +175,4 @@ class ProductEditView(UpdateView):
             is_staff = myuser.is_staff
         context['is_staff'] = is_staff
         return context
+

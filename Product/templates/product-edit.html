@@ -4,13 +4,13 @@
 {% block title %}Product edit{% endblock %}
 
 {% block logged_in_content %}
-<h2>Comment edit</h2>
-    {% if not is_staff %}
+<h2>Product edit</h2>
+    {% if not is_staff or comment.myuser.username is not user %}
         You are not authorized to edit Products.<br><br>
     {% endif %}
 
     <b style="color: darkgreen">{{ comment.myuser.username }} on {{ comment.timestamp }}</b><br>
-    {% if is_staff %}
+    {% if is_staff  or comment.myuser.username is user%}
         <form method="POST">
             {% csrf_token %}
             {{ form.as_p }}
