@@ -68,6 +68,13 @@ class Product(models.Model):
             self.save()
             return round(product / len(votes), 2)
 
+    def remove_vote(self, single_rating):
+        score = self.get_votes_score()
+        votes = self.get_votes_count()
+        endrating = round((score * votes - single_rating) * (votes - 1), 2)
+        self.__setattr__('stars', endrating)
+        self.save()
+
     def get_votes_count(self):
         return len(self.get_votes())
 
@@ -132,6 +139,7 @@ class Comment(models.Model):
     def c_delete(self, user):
         print(user)
         if user == self.user:
+            self.product.remove_vote(self.rating)
             self.delete()
 
     def __str__(self):
