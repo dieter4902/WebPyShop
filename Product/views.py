@@ -141,7 +141,7 @@ def generate_PDF(request, **kwargs):
     product = Product.objects.get(id=product_id)
     user = request.user
     data = {'that_one_product': product,
-            'that_one_user': user}
+            'user': user}
 
     template = get_template('product-detail.html')
     html  = template.render(dict(data))
