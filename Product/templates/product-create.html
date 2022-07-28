@@ -11,10 +11,9 @@
     <h2>Add product</h2>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <div class="form-group col-md-3 mb-1">
+        <div class="form-group col-md-4 mb-1">
             {{ form | crispy }}
         </div>
-
-        <button type="submit">Add product</button>
+        <button type="submit" class="btn btn-secondary">Add new product</button>
     </form>
 {% endblock %}
