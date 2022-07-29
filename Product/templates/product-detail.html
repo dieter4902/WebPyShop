@@ -1,6 +1,6 @@
 {% extends 'home.html' %}
 {% load static %}
-{% comment %} {% block scripts %}
+{% block scripts %}
     <script src="{% static 'jscolor.js' %}"></script>
     <script src="{% static 'main.js' %}" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -8,7 +8,7 @@
         .checked {
             color: orange;
         }</style>
-{% endblock %} {% endcomment %}
+{% endblock %}
 
 {% block title %}Product detail{% endblock %}
 
@@ -127,6 +127,7 @@
                 <span class="fa fa-star checked"></span>
                 <br>
                 {{ comment_form.text }}
+                <br>
                 <button type="submit">Add comment</button>
             </form>
         {% else %}
