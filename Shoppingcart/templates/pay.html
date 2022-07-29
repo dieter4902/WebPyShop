@@ -9,7 +9,6 @@
         Thank you for your payment.<br><br>
     {% elif shopping_cart_is_empty %}
         Your shopping cart is empty. There is nothing to pay for.<br><br>
-        <a href="{% url 'all-products' %}">Keep shopping the computers</a>
     {% else %}
         <form method="POST">
             {% csrf_token %}

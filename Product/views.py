@@ -56,7 +56,7 @@ def product_delete(request, **kwargs):
     if request.method == 'POST':
         product_id = kwargs['pk']
         Product.objects.get(id=product_id).delete()
-        return redirect('all-products')
+        return redirect('product-search')
     else:
         product_id = kwargs['pk']
         that_one_product = Product.objects.get(id=product_id)

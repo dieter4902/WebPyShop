@@ -1,6 +1,6 @@
 {% extends 'home.html' %}
 {% load static %}
-{% block scripts %}
+{% comment %} {% block scripts %}
     <script src="{% static 'jscolor.js' %}"></script>
     <script src="{% static 'main.js' %}" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -8,7 +8,7 @@
         .checked {
             color: orange;
         }</style>
-{% endblock %}
+{% endblock %} {% endcomment %}
 
 {% block title %}Product detail{% endblock %}
 
@@ -33,17 +33,28 @@
             <td>{{ that_one_product.brand }}<br></td>
         </tr>
         <tr>
-            <td><img src="{{ that_one_product.product_picture.url }}" height="150" width="150"><br></td>
+            <td><b>Length:</b></td>
+            <td>{{ that_one_product.length }}cm<br></td>
+        </tr>
+        <tr>
+            <td><b>Width:</b></td>
+            <td>{{ that_one_product.width }}cm<br></td>
+        </tr>
+        <tr>
+            <td><b>Height:</b></td>
+            <td>{{ that_one_product.height }}cm<br></td>
+        </tr>
+        <tr>
+            <div><img src="{{ that_one_product.product_picture.url }}" height="100%" width="auto"><br></div>
+        </tr>
+        <tr>
+            <td><b>Price:</b></td>
+            <td>{{ that_one_product.price }}€<br></td>
         </tr>
         <tr>
             <td><a href="{% url 'pdf' that_one_product.id %}">Product PDF</a><br></td>
         </tr>
     </table>
-
-
-
-
-
 
     {% if not pdf %}
         <span><small>{{ voteScore }}</small></span>
@@ -125,14 +136,8 @@
 
         <br>
         {% if user.is_staff %}
-            <a href="{% url 'product-delete' that_one_product.id %}">delete product</a>
+            <a href="{% url 'product-delete' that_one_product.id %}">Delete product</a>
             <br>
         {% endif %}
-        <a href="{% url 'product-search' %}">Back to the product search</a>
-    {% endif %}
-
-    {% if pdf %}
-        {% block header %}
-        {% endblock %}
     {% endif %}
 {% endblock %}

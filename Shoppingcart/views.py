@@ -6,18 +6,37 @@ from .models import ShoppingCart, ShoppingCartItem
 
 @login_required(login_url='/useradmin/login/')
 def show_shopping_cart(request):
+
     if request.method == 'POST':
         if 'empty' in request.POST:
-            ShoppingCart.objects.get(myuser=request.user).delete()
+            shopping_cart_is_empty = True
+            shopping_cart_items = None
+            total = Decimal(0.0)  # Default without Decimal() would be type float!
 
-            context = {'shopping_cart_is_empty': True,
-                       'shopping_cart_items': None,
-                       'amount': 0.0}
-            return render(request, 'shopping-cart.html', context)
+            myuser = request.user
+            if myuser.is_authenticated:
+                shopping_carts = ShoppingCart.objects.filter(myuser=myuser)
+                if shopping_carts:
+                    shopping_cart = shopping_carts.first()
+                    shopping_cart_is_empty = False
+                    shopping_cart_items = ShoppingCartItem.objects.filter(shopping_cart=shopping_cart)
+                    total = shopping_cart.get_total()
+            if shopping_cart_is_empty:
+                context = {'shopping_cart_is_empty': shopping_cart_is_empty,
+                        'shopping_cart_items': shopping_cart_items,
+                        'total': total}
+                return render(request, 'shopping-cart.html', context)
+            else:
+                ShoppingCart.objects.get(myuser=request.user).delete()
+
+                context = {'shopping_cart_is_empty': True,
+                        'shopping_cart_items': None,
+                        'amount': 0.0}
+                return render(request, 'shopping-cart.html', context)
 
         elif 'pay' in request.POST:
             return redirect('shopping-cart-pay')
-
+        
     else:  # request.method == 'GET'
         shopping_cart_is_empty = True
         shopping_cart_items = None

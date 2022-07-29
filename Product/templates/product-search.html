@@ -2,7 +2,6 @@
 {% load crispy_forms_filters %}
 {% load static %}
 
-
 {% block title %}Search product{% endblock %}
 
 {% block content %}
@@ -22,31 +21,30 @@
                         <br>
                         <a href={% url 'product-search' %}>Reset Filter</a>
                     </p>
-                    <p>
-                        <a href={% url 'home' %}>Back to home</a>
-                    </p>
                 </form>
                 <br>
                 <br>
             </td>
             <td>
                 {% if show_results %}
-                    <ul>
+                    <div style="position: absolute; left: 400px; width: calc(100% - 450px);display: grid; grid-template-columns: repeat(auto-fill, minmax(20%, 1fr)); margin: 5px; gap: 10px;">
                         {% for product in products_found %}
+                        <div>
                             <a href="{% url 'product-detail' product.id %}" style="text-decoration:none">
-                                <img src="{{ product.product_picture.url }}" height="150" alt="product icon"
-                                     width="150">
-                                <p>{{ product.name }}<br>{{ product.stars }}</p>
+                                <img src="{{ product.product_picture.url }}" height="auto" alt="product icon"
+                                     width="100%">
+                                <p>{{ product.name }}<br>{{ product.price }}€<br>{{ product.stars }}
                                 {% for i in '12345'|make_list %}
                                     {% if product.stars >= forloop.counter %}
                                         <img src="{% static 'Products/Star_full.png' %}" height="20" width="20" alt="">
                                     {% else %}
                                         <img src="{% static 'Products/Star_empty.png' %}" height="20" width="20" alt="">
                                     {% endif %}
-                                {% endfor %}</a>
+                                {% endfor %}</p></a>
                             <br>
+                        </div>
                         {% endfor %}
-                    </ul>
+                    </div>
                 {% endif %}
             </td>
         </tr>

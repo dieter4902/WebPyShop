@@ -9,9 +9,6 @@
             <form method="post">{% csrf_token %}
                 <p>Are you sure you want to delete "{{ one_product.name }}"?</p>
                 <input type="submit" value="Confirm">
-                <p>
-                    <a href="{% url 'product-detail' one_product.id %}">Go back to the product</a>
-                </p>
             </form>
         {% endblock %}
     {% else %}

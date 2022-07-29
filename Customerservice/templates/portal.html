@@ -3,9 +3,6 @@
 
 {% block title %}Customer page{% endblock %}
 
-{% block header %}
-{% endblock %}
-
 {% block content %}
     {% if user.is_authenticated %}
     <div class="container">
@@ -24,13 +21,6 @@
             </div>
         {% endif %}
     {% else %}
-        <p>You are not authorized to access this site.<br>
-            <b>Sadge on you!</b></p>
+        <p>You are not authorized to access this site.</p>
     {% endif %}
-
-    <div class="container">
-        <p>
-            <a href={% url 'home' %}>Back to home.</a>
-        </p>
-    </div>
 {% endblock %}

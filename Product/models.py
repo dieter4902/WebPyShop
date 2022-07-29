@@ -43,7 +43,7 @@ class Product(models.Model):
 
     color = ColorField(choices=COLOR_PALETTE,
                        default='#000000')
-    price = models.IntegerField()
+    price = models.FloatField()
     stars = models.FloatField(default=0, validators=[MaxValueValidator(5), MinValueValidator(0)])
 
     class Meta:
