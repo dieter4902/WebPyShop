@@ -9,12 +9,15 @@ def show_shopping_cart(request):
 
     if request.method == 'POST':
         if 'empty' in request.POST:
-            ShoppingCart.objects.get(myuser=request.user).delete()
+            try:
+                ShoppingCart.objects.get(myuser=request.user).delete()
 
-            context = {'shopping_cart_is_empty': True,
-                       'shopping_cart_items': None,
-                       'amount': 0.0}
-            return render(request, 'shopping-cart.html', context)
+                context = {'shopping_cart_is_empty': True,
+                        'shopping_cart_items': None,
+                        'amount': 0.0}
+                return render(request, 'shopping-cart.html', context)
+            except:
+                return redirect('shopping-cart-show')
 
         elif 'pay' in request.POST:
             return redirect('shopping-cart-pay')
